@@ -1,0 +1,19 @@
+{
+  "name": "custom-print",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MakersLab/custom-print.git"
+  },
+  "author": "MakersLab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MakersLab/custom-print/issues"
+  },
+  "homepage": "https://github.com/MakersLab/custom-print#readme"
+}
