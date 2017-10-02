@@ -1,19 +1,30 @@
 {
   "name": "custom-print",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint src && preact test",
+    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
+    "build": "preact build",
+    "serve": "preact build && preact serve",
+    "dev": "preact watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MakersLab/custom-print.git"
-  },
-  "author": "MakersLab",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MakersLab/custom-print/issues"
+  "eslintConfig": {
+    "extends": "eslint-config-synacor"
   },
-  "homepage": "https://github.com/MakersLab/custom-print#readme"
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-synacor": "^2.0.0",
+    "if-env": "^1.0.0",
+    "preact-cli": "^1.4.1"
+  },
+  "dependencies": {
+    "preact": "^8.2.5",
+    "preact-compat": "^3.17.0",
+    "preact-router": "^2.5.7"
+  }
 }
