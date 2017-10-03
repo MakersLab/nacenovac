@@ -23,8 +23,13 @@
     "preact-cli": "^1.4.1"
   },
   "dependencies": {
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-standard-preact": "^1.1.6",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
-    "preact-router": "^2.5.7"
+    "preact-router": "^2.5.7",
+    "react-dropzone": "^4.1.3"
   }
 }
