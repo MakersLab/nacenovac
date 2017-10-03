@@ -1,30 +1,29 @@
 import { h, Component } from 'preact';
-import { Router } from 'preact-router';
-
-import Header from './header';
-import Home from '../routes/home';
-import Profile from '../routes/profile';
-// import Home from 'async!./home';
-// import Profile from 'async!./profile';
-
+import FileUpload from '../routes/file-upload/'
+import Details from '../routes/details/'
 export default class App extends Component {
-	/** Gets fired when the route changes.
-	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
-	 *	@param {string} event.url	The newly routed URL
-	 */
-	handleRoute = e => {
-		this.currentUrl = e.url;
-	};
+  constructor() {
+    super();
 
-	render() {
+    this.state = {
+      currentPage: 'details',
+    };
+
+    this.changeCurrentPage = this.changeCurrentPage.bind(this);
+  }
+
+  changeCurrentPage(page) {
+    this.setState({
+      ...this.state,
+      currentPage: page
+    });
+  }
+
+	render(props, state) {
 		return (
 			<div id="app">
-				<Header />
-				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
-				</Router>
+        { state.currentPage === 'file-upload' ? <FileUpload goToDetailsPage={() => {this.changeCurrentPage('details')}}/> : null}
+        { state.currentPage === 'details' ? <Details /> : null}
 			</div>
 		);
 	}
