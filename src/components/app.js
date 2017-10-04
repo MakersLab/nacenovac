@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import FileUpload from '../routes/file-upload/'
 import Details from '../routes/details/'
+import Results from '../routes/results/'
 export default class App extends Component {
   constructor() {
     super();
@@ -24,6 +25,7 @@ export default class App extends Component {
 			<div id="app">
         { state.currentPage === 'file-upload' ? <FileUpload goToDetailsPage={() => {this.changeCurrentPage('details')}}/> : null}
         { state.currentPage === 'details' ? <Details /> : null}
+        { state.currentPage === 'results' ? <Results /> : null}
 			</div>
 		);
 	}
