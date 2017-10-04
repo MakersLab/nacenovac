@@ -26,21 +26,30 @@ export default class FileUpload extends Component {
   }
 
   handleAnalyzeButtonClick() {
-    this.props.goToDetailsPage();
+    this.props.confirmChooseFile(this.state.file);
   }
 
   render(props, state) {
     return (
-      <form class={style['file-upload']}>
-        <div>
-          <Dropzone
-          onDrop={this.handleFileDrop}
-          multiple={false}
-          >drag n drop file in or click to open file dialog</Dropzone>
+      <form class={`${style['file-upload']} container`}>
+        <div class={`row ${style.heading}`}>
+          <h1>Upload file</h1>
         </div>
-
-        { state.isFileSelected ? <span>{state.file.name }</span>: null }
-        <button disabled={!state.isFileSelected} onClick={this.handleAnalyzeButtonClick} type="button">Go to details</button>
+        <div class="row">
+          <div class="three columns offset-by-two">
+            <Dropzone
+            onDrop={this.handleFileDrop}
+            multiple={false}
+            class={style['file']}
+            accept=".stl"
+            >
+              <div class={style['file__text']}>{ state.isFileSelected ? state.file.name : "drag and drop file in or click to open file dialog"}</div>
+            </Dropzone>
+          </div>
+          <div class={`one column offset-by-two ${style['button']}`}>
+            <button class="button-primary disabled" disabled={!state.isFileSelected} onClick={this.handleAnalyzeButtonClick} type="button">Go to details</button>
+          </div>
+        </div>
       </form>
     );
   }

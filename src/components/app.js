@@ -7,10 +7,17 @@ export default class App extends Component {
     super();
 
     this.state = {
-      currentPage: 'details',
+      currentPage: 'file-upload',
+      isFetchingResults: false,
+      results: null,
+      file: {
+        name: '-'
+      },
     };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
+    this.makeRequest = this.makeRequest.bind(this);
+    this.confirmChooseFile = this.confirmChooseFile.bind(this);
   }
 
   changeCurrentPage(page) {
@@ -20,11 +27,24 @@ export default class App extends Component {
     });
   }
 
+  confirmChooseFile(file) {
+    this.setState({
+      ...this.state,
+      file,
+    });
+    this.changeCurrentPage('details')
+  }
+
+  makeRequest() {
+    //  TODO add code for uploading the file and getting the results when backend will be available
+    this.changeCurrentPage('results');
+  }
+
 	render(props, state) {
 		return (
 			<div id="app">
-        { state.currentPage === 'file-upload' ? <FileUpload goToDetailsPage={() => {this.changeCurrentPage('details')}}/> : null}
-        { state.currentPage === 'details' ? <Details /> : null}
+        { state.currentPage === 'file-upload' ? <FileUpload confirmChooseFile={this.confirmChooseFile}/> : null}
+        { state.currentPage === 'details' ? <Details onConfirm={this.makeRequest} filename={state.file.name}/> : null}
         { state.currentPage === 'results' ? <Results /> : null}
 			</div>
 		);
