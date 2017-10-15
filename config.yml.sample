@@ -1,0 +1,6 @@
+slicer:
+  executable:
+  printer-definition:
+stl-upload-directory: data/stl/
+gcode-directory: data/gcode/
+terminal-encoding: utf-8
