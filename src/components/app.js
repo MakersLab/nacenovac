@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
-import FileUpload from '../routes/file-upload/';
-import Details from '../routes/details/';
-import Results from '../routes/results/';
-import Order from '../routes/order/';
+import FileUpload from './file-upload/';
+import Details from './details/';
+import Results from './results/';
+import Order from './order/';
 import { uploadFileForPricing, getPrintPrice, getFilaments, createOrder } from '../lib/api';
 
 export default class App extends Component {
