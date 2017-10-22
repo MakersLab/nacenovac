@@ -3,23 +3,26 @@ import json
 import os
 import uuid
 
-def loadFromFile(file_name):
-    fileContents = ''
-    path = '/'.join(os.path.dirname(__file__).split('/')[0:-1])
-    with open((os.path.join(path,file_name)), 'r') as file:
+def loadFromFile(fileName, projectPath = None, bytes=False):
+    if projectPath:
+      path = os.path.join(projectPath, fileName)
+    else:
+      path = os.path.join('/'.join(os.path.dirname(__file__).split('/')[0:-1]), fileName)
+    readType = 'r' if not bytes else 'rb'
+    with open(path, readType) as file:
         fileContents = file.read()
         file.close()
     return fileContents
 
-def loadYaml(file_name):
-    return yaml.load(loadFromFile(file_name))
+def loadYaml(fileName, projectPath = None):
+    return yaml.load(loadFromFile(fileName, projectPath))
 
-def loadJson(file_name):
-    return json.loads(loadFromFile(file_name))
+def loadJson(fileName):
+    return json.loads(loadFromFile(fileName))
 
-def writeFile(file_name, content):
+def writeFile(fileName, content):
     path = '/'.join(os.path.dirname(__file__).split('/')[0:-1])
-    with open((os.path.join(path,file_name)), 'w') as file:
+    with open((os.path.join(path,fileName)), 'w') as file:
         file.write(content)
         file.close()
 
