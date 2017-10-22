@@ -5,7 +5,6 @@ import style from './style';
 export default class Results extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
     };
   }
@@ -21,10 +20,22 @@ export default class Results extends Component {
             <label>
               Price:
             </label>
-            <span>88 Czk</span>
+            <span>{props.slicerResult ? `${Math.round(props.slicerResult.price)},-Kč` : 'loading spinner'}</span>
           </div>
           <div class="two columns">
-            <button class="button-primary">Order</button>
+            <label>
+              Print time in seconds:
+            </label>
+            <span>{props.slicerResult ? `${props.slicerResult.printTime}s` : 'loading spinner'}</span>
+          </div>
+          <div class="two columns">
+            <label>
+              Filament used:
+            </label>
+            <span>{props.slicerResult ? `${props.slicerResult.filament}` : 'loading spinner'}</span>
+          </div>
+          <div class="two columns">
+            <button class="button-primary" onClick={props.confirmResult}>Order</button>
           </div>
         </div>
       </div>);
