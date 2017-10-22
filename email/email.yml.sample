@@ -1,0 +1,5 @@
+server: smtp.seznam.cz
+port: 465
+email: test-objednavka@email.cz
+password: q8n1iu54vc
+order-to: kuba.zika@email.cz

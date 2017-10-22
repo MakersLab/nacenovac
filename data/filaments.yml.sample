@@ -1,0 +1,12 @@
+-
+  id: PLA_0000ff_a35s0
+  color-name: blue
+  color-code: 0000FF
+  material: PLA
+  price: 1
+-
+  id: PLA_0000ff_a35s1
+  color-name: red
+  color-code: FF0000
+  material: PLA
+  price: 1
