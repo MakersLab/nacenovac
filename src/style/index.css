@@ -29,3 +29,9 @@ html, body {
   border-radius: 8px;
   background-color: #efefef;
 }
+
+.content {
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
