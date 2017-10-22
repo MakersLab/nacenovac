@@ -16,7 +16,7 @@ const request = (method, uri, data = undefined, file = undefined) => {
 
 
 export const getFilaments = () => {
-  return request('GET', '/filaments');
+  return request('POST', '/filaments');
 };
 
 export const uploadFileForPricing = (file) => {

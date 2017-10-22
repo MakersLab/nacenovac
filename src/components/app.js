@@ -1,23 +1,41 @@
 import { h, Component } from 'preact';
-import FileUpload from '../routes/file-upload/'
-import Details from '../routes/details/'
-import Results from '../routes/results/'
+import FileUpload from '../routes/file-upload/';
+import Details from '../routes/details/';
+import Results from '../routes/results/';
+import Order from '../routes/order/';
+import { uploadFileForPricing, getPrintPrice, getFilaments, createOrder } from '../lib/api';
+
 export default class App extends Component {
   constructor() {
     super();
 
     this.state = {
       currentPage: 'file-upload',
-      isFetchingResults: false,
+      pendingRequest: null,
       results: null,
-      file: {
-        name: '-'
-      },
+      fileId: null,
+      fileName: null,
+      filaments: null,
+      slicerResult: null,
     };
 
+    this.getAvailableFilaments();
+
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
-    this.makeRequest = this.makeRequest.bind(this);
+    this.analyze = this.analyze.bind(this);
     this.confirmChooseFile = this.confirmChooseFile.bind(this);
+    this.createOrder = this.createOrder.bind(this);
+  }
+
+  getAvailableFilaments() {
+    getFilaments()
+      .then((result) => {
+        this.setState({
+          ...this.state,
+          filaments: result.filaments,
+        });
+      });
+
   }
 
   changeCurrentPage(page) {
@@ -28,24 +46,67 @@ export default class App extends Component {
   }
 
   confirmChooseFile(file) {
-    this.setState({
-      ...this.state,
-      file,
-    });
+    if(!this.state.pendingRequest) {
+      this.setState({
+        ...this.state,
+        fileName: file.name,
+        pendingRequest: 'uploading-file',
+      });
+
+      uploadFileForPricing(file)
+        .then((results) => {
+          this.setState({
+            ...this.state,
+            pendingRequest: null,
+            fileId: results.fileName,
+          })
+      })
+        .catch((err) => {
+
+      });
+    }
     this.changeCurrentPage('details')
   }
 
-  makeRequest() {
-    //  TODO add code for uploading the file and getting the results when backend will be available
+  analyze(filament) {
+    if(!this.state.pendingRequest) {
+
+      this.setState({
+        ...this.state,
+        pendingRequest: 'slicing'
+      });
+
+      getPrintPrice(this.state.fileId, filament)
+      .then((result) => {
+        if(result.error === undefined) {
+          this.setState({
+            ...this.state,
+            pendingRequest: null,
+            slicerResult: {
+              ...result
+            }
+          })
+        }
+      })
+      .catch();
+    }
     this.changeCurrentPage('results');
+  }
+
+  createOrder(email) {
+    createOrder(this.state.fileId, email)
+      .then((result) => {
+        alert(result);
+      });
   }
 
 	render(props, state) {
 		return (
 			<div id="app">
         { state.currentPage === 'file-upload' ? <FileUpload confirmChooseFile={this.confirmChooseFile}/> : null}
-        { state.currentPage === 'details' ? <Details onConfirm={this.makeRequest} filename={state.file.name}/> : null}
-        { state.currentPage === 'results' ? <Results /> : null}
+        { state.currentPage === 'details' ? <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments}/> : null}
+        { state.currentPage === 'results' ? <Results confirmResult={() => { this.changeCurrentPage('order'); }} slicerResult={state.slicerResult} /> : null}
+        { state.currentPage === 'order' ? <Order createOrder={this.createOrder} /> : null}
 			</div>
 		);
 	}
