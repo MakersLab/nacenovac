@@ -31,12 +31,8 @@ export default class Order extends Component {
   }
 
   render(props, state) {
-    console.log(state);
     return(
       <div class={`${style['order']} container`}>
-        <div class="row">
-          <h1>Order</h1>
-        </div>
         <div class="row">
           <form onSubmit={this.handleSubmit}>
             <label>Email:</label>

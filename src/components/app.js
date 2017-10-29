@@ -3,7 +3,7 @@ import FileUpload from './file-upload/';
 import Details from './details/';
 import Results from './results/';
 import Order from './order/';
-import { uploadFileForPricing, getPrintPrice, getFilaments, createOrder } from '../lib/api';
+import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
 
 export default class App extends Component {
   constructor() {
@@ -16,7 +16,8 @@ export default class App extends Component {
       fileId: null,
       fileName: null,
       filaments: null,
-      slicerResult: null,
+      sliceResult: null,
+      selectedFilament: null,
     };
 
     this.getAvailableFilaments();
@@ -51,6 +52,7 @@ export default class App extends Component {
         ...this.state,
         fileName: file.name,
         pendingRequest: 'uploading-file',
+        sliceResult: null,
       });
 
       uploadFileForPricing(file)
@@ -59,30 +61,33 @@ export default class App extends Component {
             ...this.state,
             pendingRequest: null,
             fileId: results.fileName,
-          })
+          });
+          // TODO use currently selected filament on file upload, not the first one
+          this.slice(this.state.filaments[Object.keys(this.state.filaments)[0]].id);
       })
         .catch((err) => {
-
+          throw err;
       });
     }
     this.changeCurrentPage('details')
   }
 
-  analyze(filament) {
+  slice(filament) {
     if(!this.state.pendingRequest) {
 
       this.setState({
         ...this.state,
-        pendingRequest: 'slicing'
+        pendingRequest: 'slicing',
+        sliceResult: null,
       });
 
-      getPrintPrice(this.state.fileId, filament)
+      sliceFile(this.state.fileId, filament)
       .then((result) => {
         if(result.error === undefined) {
           this.setState({
             ...this.state,
             pendingRequest: null,
-            slicerResult: {
+            sliceResult: {
               ...result
             }
           })
@@ -93,20 +98,52 @@ export default class App extends Component {
     this.changeCurrentPage('results');
   }
 
-  createOrder(email) {
-    createOrder(this.state.fileId, email)
+  analyze(filament) {
+    if(!this.state.pendingRequest) {
+
+        this.setState({
+        ...this.state,
+        pendingRequest: 'analyzing',
+      });
+
+      getFilePrice(this.state.sliceResult, filament)
       .then((result) => {
-        alert(result);
+        this.setState({
+          ...this.state,
+          selectedFilament: filament,
+          pendingRequest: null,
+          sliceResult: {
+            ...this.state.sliceResult,
+            price: result.price,
+          }
+        })
+      })
+      .catch((err) => {
+        throw err
+      })
+    }
+
+  }
+
+  createOrder(email) {
+    createOrder(this.state.fileId, email, this.state.selectedFilament)
+      .then((result) => {
+        alert(result.message);
       });
   }
 
 	render(props, state) {
 		return (
 			<div id="app">
-        { state.currentPage === 'file-upload' ? <FileUpload confirmChooseFile={this.confirmChooseFile}/> : null}
-        { state.currentPage === 'details' ? <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments}/> : null}
-        { state.currentPage === 'results' ? <Results confirmResult={() => { this.changeCurrentPage('order'); }} slicerResult={state.slicerResult} /> : null}
-        { state.currentPage === 'order' ? <Order createOrder={this.createOrder} /> : null}
+        <div>
+          <h1>3D Print shop</h1>
+        </div>
+        <FileUpload confirmChooseFile={this.confirmChooseFile}/>
+        {state.fileName ? <hr /> : null}
+        <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments} sliceResult={state.sliceResult}/>
+        {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
+        {state.fileName ? <hr /> : null}
+        {state.fileName ? <Order createOrder={this.createOrder} /> : null}
 			</div>
 		);
 	}

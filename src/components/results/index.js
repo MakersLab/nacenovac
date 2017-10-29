@@ -13,29 +13,23 @@ export default class Results extends Component {
     return(
       <div class={`${style.results} container`}>
         <div class="row">
-          <h1>Results</h1>
-        </div>
-        <div class="row">
           <div class="two columns">
             <label>
               Price:
             </label>
-            <span>{props.slicerResult ? `${Math.round(props.slicerResult.price)},-Kč` : 'loading spinner'}</span>
+            <span>{props.sliceResult ? `${Math.round(props.sliceResult.price)},-Kč` : 'loading spinner'}</span>
           </div>
           <div class="two columns">
             <label>
               Print time in seconds:
             </label>
-            <span>{props.slicerResult ? `${props.slicerResult.printTime}s` : 'loading spinner'}</span>
+            <span>{props.sliceResult ? `${props.sliceResult.printTime}s` : 'loading spinner'}</span>
           </div>
           <div class="two columns">
             <label>
               Filament used:
             </label>
-            <span>{props.slicerResult ? `${props.slicerResult.filament}` : 'loading spinner'}</span>
-          </div>
-          <div class="two columns">
-            <button class="button-primary" onClick={props.confirmResult}>Order</button>
+            <span>{props.sliceResult ? `${props.sliceResult.filament}` : 'loading spinner'}</span>
           </div>
         </div>
       </div>);
