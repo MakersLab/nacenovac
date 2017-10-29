@@ -27,10 +27,14 @@ def writeFile(fileName, content):
         file.close()
 
 def getPath(file):
-  print(file)
   return '/'.join(os.path.dirname(file).split('/')[0:-1])+'/'
 
 def addUniqueIdToFile(filename):
     splitFilename = filename.split('.')
     splitFilename[0] = '{filename}-{id}'.format(filename=splitFilename[0], id=str(uuid.uuid4())[:6])
     return '.'.join(splitFilename)
+
+def removeValueFromDict(k, value):
+  for key in k:
+    del k[key][value]
+  return k
