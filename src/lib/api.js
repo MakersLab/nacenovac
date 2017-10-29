@@ -1,4 +1,4 @@
-const address = 'http://localhost:8040';
+const address = 'http://opeteth.mooo.com:8040';
 const request = (method, uri, data = undefined, file = undefined) => {
   const formData = new FormData();
   if(data) {
@@ -23,13 +23,18 @@ export const uploadFileForPricing = (file) => {
   return request('POST', '/upload', undefined, file);
 };
 
-export const getPrintPrice = (fileName, filament) => {
-  return request('POST', '/pricing', { fileName: fileName, filament });
+export const sliceFile = (fileName, filament) => {
+  return request('POST', '/slice', { fileName: fileName, filament });
 };
 
-export const createOrder = (fileName, email) => {
+export const getFilePrice = (sliceResult, filament) => {
+  return request('POST', '/pricing', {sliceResult, filament});
+};
+
+export const createOrder = (fileName, email, filament) => {
   return request('POST', '/order', {
    fileName,
    email,
+  filament,
   },);
 };
