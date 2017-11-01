@@ -4,7 +4,9 @@ from json import dumps, loads
 from flask_cors import CORS, cross_origin
 import os
 from jinja2 import Environment, FileSystemLoader
+
 from lib.slicer import slice
+from lib.stl_tools import analyzeSTL
 from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict
 from lib.pricing import price
 from lib.email_util import Email
@@ -34,9 +36,11 @@ def uploadFile():
 @app.route('/slice', methods=['POST'])
 def sliceFile():
   data = loads(request.form['data'])
-  result, err = slice(PATH, data['fileName'])
+  fileName = data['fileName']
+  result, err = slice(PATH, fileName)
   if not err:
     result['price'] = price(result['printTime'], result['filament'], filaments[data['filament']])
+    result['dimensions'] = analyzeSTL(PATH, fileName)
     return dumps(result)
   else:
     return dumps({ 'error': err })

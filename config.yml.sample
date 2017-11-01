@@ -1,6 +1,15 @@
 slicer:
-  executable:
-  printer-definition:
-stl-upload-directory: data/stl/
-gcode-directory: data/gcode/
+  executable: path
+  printer-definition: path
+  profiles:
+    coarse: path
+    draft: path
+    high: path
+    low: path
+    normal: path
+stl-upload-directory: relative path
+gcode-directory: relative path
 terminal-encoding: utf-8
+filaments-config: relative path
+email-config: relative path
+ADMesh-executable: path
