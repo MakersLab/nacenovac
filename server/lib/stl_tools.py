@@ -24,7 +24,7 @@ def analyzeSTL(path, fileName):
     try:
       firstVal = re.findall(dimensionsRegex.format(type=types[type][0]), output)[0]
       secondVal = re.findall(dimensionsRegex.format(type=types[type][1]), output)[0]
-      dimensions[type] = abs(float(firstVal)) + abs(float(secondVal))
+      dimensions[type] = abs(float(firstVal) - float(secondVal))
     except IndexError as e:
       print('unable to decode', output)
       raise e
