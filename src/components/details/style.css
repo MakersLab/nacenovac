@@ -1,2 +1,16 @@
 .details {
+
+}
+
+.details__detail-item {
+  display: inline-block;
+  margin: 10px;
+}
+
+.detail-item__amount {
+  width: 4em;
+}
+
+.detail-item__filename {
+  font-weight: bold;
 }

@@ -4,6 +4,7 @@ import Details from './details/';
 import Results from './results/';
 import Order from './order/';
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
+import { convertObjectToArray } from '../lib/utils'
 
 export default class App extends Component {
   constructor() {
@@ -16,6 +17,7 @@ export default class App extends Component {
       fileId: null,
       fileName: null,
       filaments: null,
+      amount: 1,
       sliceResult: null,
       selectedFilament: null,
     };
@@ -26,14 +28,17 @@ export default class App extends Component {
     this.analyze = this.analyze.bind(this);
     this.confirmChooseFile = this.confirmChooseFile.bind(this);
     this.createOrder = this.createOrder.bind(this);
+    this.onItemAmountChange = this.onItemAmountChange.bind(this);
   }
 
   getAvailableFilaments() {
     getFilaments()
       .then((result) => {
+        console.log(result.filaments);
         this.setState({
           ...this.state,
           filaments: result.filaments,
+          selectedFilament: result.filaments ? Object.keys(result.filaments)[0] : null,
         });
       });
 
@@ -98,9 +103,15 @@ export default class App extends Component {
     this.changeCurrentPage('results');
   }
 
+  onItemAmountChange(amount) {
+    this.setState({
+      ...this.state,
+      amount,
+    })
+  }
+
   analyze(filament) {
     if(!this.state.pendingRequest) {
-
         this.setState({
         ...this.state,
         pendingRequest: 'analyzing',
@@ -126,7 +137,7 @@ export default class App extends Component {
   }
 
   createOrder(email) {
-    createOrder(this.state.fileId, email, this.state.selectedFilament)
+    createOrder(this.state.fileId, email, this.state.selectedFilament, this.state.amount)
       .then((result) => {
         alert(result.message);
       });
@@ -140,7 +151,7 @@ export default class App extends Component {
         </div>
         <FileUpload confirmChooseFile={this.confirmChooseFile}/>
         {state.fileName ? <hr /> : null}
-        <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments} sliceResult={state.sliceResult}/>
+        <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments} sliceResult={state.sliceResult} onItemAmountChange={this.onItemAmountChange}/>
         {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
         {state.fileName ? <hr /> : null}
         {state.fileName ? <Order createOrder={this.createOrder} /> : null}

@@ -11,9 +11,10 @@ export default class Details extends Component {
     this.state = {
       selectedMaterial: props.filaments ? props.filaments[0].material : null,
       selectedFilament: props.filaments ? props.filaments[0]['color-name'] : null,
+      amount: 1,
     };
 
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
   }
 
@@ -52,7 +53,7 @@ export default class Details extends Component {
     return [];
   }
 
-  handleSelectChange(e, type) {
+  handleValueChange(e, type) {
     if (type === 'selectedMaterial') {
       let material = e.target.value;
       this.setState({
@@ -60,47 +61,66 @@ export default class Details extends Component {
         selectedMaterial: material,
         selectedFilament: this.filterByMaterial(material)[0].id,
       });
+      this.props.analyze(this.state.selectedFilament);
     }
-    else {
+    else if (type === 'selectedFilament') {
       this.setState({
         ...this.state,
         [type]: e.target.value
       });
+      this.props.analyze(this.state.selectedFilament);
     }
 
-    this.props.analyze(this.state.selectedFilament);
+    else if (type === 'amount') {
+      this.setState({
+        ...this.state,
+        [type]: Number(e.target.value),
+      });
+      this.props.onItemAmountChange(Number(e.target.value));
+    }
   }
 
   handleConfirm() {
-    this.props.analyze(this.state.selectedFilament);
+    this.props.analyze(this.state.selectedFilament, this.state.amount);
   }
 
   render(props, state) {
     if(props.filename) {
+      const dimensions = props.sliceResult ? props.sliceResult.dimensions || { x:0, y:0, z:0 } : { x:0, y:0, z:0 };
       return(
-        <div class={`${style['details']} container`}>
+        <form class={`${style['details']} container`}>
           <div class="row">
-            <div class="four columns">
-              {props.filename}
+            <div class={style['details__detail-item']}>
+              <div class={style['detail-item__filename']}>
+                {props.filename}
+              </div>
+              <div>
+                {`${dimensions.x.toFixed(1)} x ${dimensions.y.toFixed(1)} x ${dimensions.z.toFixed(1)}mm`}
+              </div>
             </div>
-            <div class="two columns">
+
+            <div class={style['details__detail-item']}>
               <label class={style['title']}>Material:</label>
-              <select class={style['select']} onChange={(e) => { this.handleSelectChange(e, 'selectedMaterial'); }}>
+              <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedMaterial'); }}>
                 {this.getAvailableMaterialOptions()}
               </select>
             </div>
-            <div class="two columns">
+            <div class={style['details__detail-item']}>
               <label class={style['title']}>Color:</label>
-              <select class={style['select']} onChange={(e) => { this.handleSelectChange(e, 'selectedFilament'); }}>
+              <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
                 {this.getAvailableColorOptions()}
               </select>
             </div>
-            <div class="two columns">
+            <div class={style['details__detail-item']}>
+              <label>Amount:</label>
+              <input class={style['detail-item__amount']} type="number" min="1" max="20" value={state.amount} onChange={(e) => { this.handleValueChange(e, 'amount'); }} />
+            </div>
+            <div class={`${style['details__detail-item']}`}>
               <label>Price:</label>
-              <span>{props.sliceResult ? `${Math.round(props.sliceResult.price)},- Kč`: 'calculating'}</span>
+              <span>{props.sliceResult ? `${Math.round(props.sliceResult.price)*state.amount},- Kč`: 'calculating'}</span>
             </div>
           </div>
-        </div>);
+        </form>);
     }
     return null;
   }

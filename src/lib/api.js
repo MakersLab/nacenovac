@@ -31,10 +31,11 @@ export const getFilePrice = (sliceResult, filament) => {
   return request('POST', '/pricing', {sliceResult, filament});
 };
 
-export const createOrder = (fileName, email, filament) => {
+export const createOrder = (fileName, email, filament, amount) => {
   return request('POST', '/order', {
    fileName,
    email,
   filament,
+  amount,
   },);
 };
