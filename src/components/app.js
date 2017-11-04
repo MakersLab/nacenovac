@@ -137,7 +137,7 @@ export default class App extends Component {
   }
 
   createOrder(email) {
-    createOrder(this.state.fileId, email, this.state.selectedFilament, this.state.amount)
+    createOrder(this.state.fileName, this.state.fileId, email, this.state.selectedFilament, this.state.amount)
       .then((result) => {
         alert(result.message);
       });
