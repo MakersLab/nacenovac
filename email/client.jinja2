@@ -1,10 +1,23 @@
 {% extends "base.jinja2"  %}
 
 {% block content %}
-    <h1>
-        Your order was registered
-    </h1>
     <p>
-        Integer in sapien. Fusce nibh. Aliquam erat volutpat. Integer tempor. Nulla est. Donec vitae arcu. Nulla est. Mauris tincidunt sem sed arcu. Nullam eget nisl. Proin in tellus sit amet nibh dignissim sagittis. Fusce suscipit libero eget elit. Proin pede metus, vulputate nec
+        Dobrý den,<br />
+        děkujeme za Vaši objednávku.
     </p>
+    <div>
+        <div>
+            <b>{{ fileName }}</b> -
+            <b>{{ filament.material }}</b> -
+            <b>{{ filament['color-name'] }}</b> -
+            <b>{{ amount }}ks</b> -
+            <b>{{ price }},- Kč </b>
+        </div>
+        <div>
+            Celkem {{ price }}Kc
+        </div>
+        <div>
+            Ohledně realizace se Vam v nejbližší možné době ozveme.
+        </div>
+    </div>
 {% endblock %}

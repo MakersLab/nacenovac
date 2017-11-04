@@ -69,22 +69,30 @@ def order():
   def sendMail():
     email = Email(emailConfig['server'], emailConfig['port'], emailConfig['email'], emailConfig['password'])
     template = env.get_template('client.jinja2')
-    content = template.render()
+    content = template.render(
+      fileName=data['fileName'],
+      filament=filaments[data['filament']],
+      amount=data['amount'],
+      price=5000)
     messageForClient = email.createMessage(
       emailConfig['email'],
       data['email'],
-      '3D print shop order',
+      '3D továrna - objednávka č. S{orderId}'.format(orderId=42),
       content)
     email.send(messageForClient)
 
     template = env.get_template('company.jinja2')
-    content = template.render(filament=data['filament'], email=data['email'])
+    content = template.render(
+      fileName=data['fileName'],
+      filament=filaments[data['filament']],
+      amount=data['amount'],
+      price=5000)
     messageForCompany = email.createMessage(
       emailConfig['email'],
       emailConfig['order-to'],
       'new order',
       content,
-      loadFromFile(os.path.join(PATH, config['stl-upload-directory'], data['fileName']), bytes=True),
+      loadFromFile(os.path.join(PATH, config['stl-upload-directory'], data['fileId']), bytes=True),
       data['fileName'])
     email.send(messageForCompany)
 
