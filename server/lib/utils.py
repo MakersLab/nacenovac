@@ -26,8 +26,11 @@ def writeFile(fileName, content):
         file.write(content)
         file.close()
 
-def getPath(file):
-  return '/'.join(os.path.dirname(file).split('/')[0:-1])+'/'
+def getProjectPath(file):
+  return '/'.join(os.path.dirname(file).split('\\')[0:-1])+'/'
+
+def getPath(projectPath, path):
+  return os.path.join(projectPath, path)
 
 def addUniqueIdToFile(filename):
     splitFilename = filename.split('.')
