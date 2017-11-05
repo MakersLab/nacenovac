@@ -24,7 +24,7 @@ export const uploadFileForPricing = (file) => {
 };
 
 export const sliceFile = (fileName, filament) => {
-  return request('POST', '/slice', { fileName: fileName, filament });
+  return request('POST', '/slice', { fileId: fileName, filament });
 };
 
 export const getFilePrice = (sliceResult, filament) => {

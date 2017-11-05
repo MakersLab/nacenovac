@@ -65,7 +65,7 @@ export default class App extends Component {
           this.setState({
             ...this.state,
             pendingRequest: null,
-            fileId: results.fileName,
+            fileId: results.fileId,
           });
           // TODO use currently selected filament on file upload, not the first one
           this.slice(this.state.filaments[Object.keys(this.state.filaments)[0]].id);
