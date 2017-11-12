@@ -7,14 +7,20 @@
     </p>
     <div>
         <div>
-            <b>{{ fileName }}</b> -
-            <b>{{ filament.material }}</b> -
-            <b>{{ filament['color-name'] }}</b> -
-            <b>{{ amount }}ks</b> -
-            <b>{{ price }},- Kč </b>
+            <p>
+                {% for file in files %}
+                    <div>
+                        {{ file.name }} -
+                        {{ file.material }} -
+                        {{ file.color }} -
+                        {{ file.amount }}ks -
+                        {{ file.price }},-Kč
+                    </div>
+                {% endfor %}
+            </p>
         </div>
         <div>
-            Celkem {{ price }}Kc
+            Celkem {{ price }},-Kč
         </div>
         <div>
             Ohledně realizace se Vam v nejbližší možné době ozveme.

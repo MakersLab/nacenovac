@@ -2,18 +2,28 @@
 
 {% block content %}
     <h1>
-        Nová objednávka <b>č S{{ orderId }}</b>
+        Nová objednávka <b>č. S{{ orderId }}</b>
     </h1>
     <div>
         <div>
-            <b>{{ fileName }}</b> -
-            <b>{{ filament.material }}</b> -
-            <b>{{ filament['color-name'] }}</b> -
-            <b>{{ amount }}ks</b> -
-            <b>{{ price }},- Kč </b>
+            <p>
+                {% for file in files %}
+                    <div>
+                        {{ file.name }} -
+                        {{ file.material }} -
+                        {{ file.color }} -
+                        {{ file.amount }}ks -
+                        {{ file.price }},-Kč
+                    </div>
+                {% endfor %}
+            </p>
         </div>
         <div>
-            Celkem {{ price }}Kc
+            Celkem {{ price }},-Kč
+        </div>
+        <div>Zákazníkův email <b>{{ email }}</b></div>
+        <div>
+            Ohledně realizace se Vam v nejbližší možné době ozveme.
         </div>
     </div>
 {% endblock %}
