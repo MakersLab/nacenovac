@@ -1,5 +1,6 @@
 from lib.database import Base
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy.orm import relationship
 
 class File(Base):
   __tablename__ = 'files'
@@ -11,6 +12,9 @@ class File(Base):
   dimensionsX = Column('dimensions_x',Float)
   dimensionsY = Column('dimensions_y',Float)
   dimensionsZ = Column('dimensions_z',Float)
+  orderId = Column('order_id', Integer, ForeignKey('orders.id'))
+  amount = Column(Integer)
+  filament = Column(String(100))
 
   def update(self, printTime, filamentUsed, dimensions):
     self.printTime = printTime

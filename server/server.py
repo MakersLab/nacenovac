@@ -76,9 +76,14 @@ def order():
   data = loads(request.form['data'])
   files = data['files']
   filesDb = []
+
+  orderDb = Order(data['email'], delivery=data['delivery'], details=data['delivery'])
   orderPrice = 0
   for file in files:
     fileDb = File.query.filter_by(id=file['id']).first()
+    orderDb.files.append(fileDb)
+    fileDb.filament = file['filament']
+    fileDb.amount = file['amount']
     filesDb.append(fileDb)
     filament = FILAMENTS[file['filament']]
     individualPrice = price(fileDb.printTime, fileDb.filamentUsed, filament)*file['amount']
@@ -90,7 +95,8 @@ def order():
     file['content'] = loadFromFile(os.path.join(CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True)
   if data['delivery'] == 'express':
     orderPrice = orderPrice*1.3
-  orderDb = Order(data['email'], orderPrice)
+
+  orderDb.price = orderPrice
   dbSession.add(orderDb)
   dbSession.commit()
   orderId = orderDb.id
