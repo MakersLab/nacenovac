@@ -3,6 +3,7 @@ import FileUpload from './file-upload/';
 import File from './file/';
 import Results from './results/';
 import Order from './order/';
+import Delivery from './delivery/';
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
 import { convertObjectToArray } from '../lib/utils'
 
@@ -20,7 +21,8 @@ export default class App extends Component {
       amount: 1,
       sliceResult: null,
       selectedFilament: null,
-      files: []
+      files: [],
+      delivery: 'standard'
     };
 
     this.getAvailableFilaments();
@@ -30,6 +32,7 @@ export default class App extends Component {
     this.confirmChooseFile = this.confirmChooseFile.bind(this);
     this.createOrder = this.createOrder.bind(this);
     this.onItemAmountChange = this.onItemAmountChange.bind(this);
+    this.onDeliveryChange = this.onDeliveryChange.bind(this);
   }
 
   getAvailableFilaments() {
@@ -159,7 +162,6 @@ export default class App extends Component {
         throw err
       })
     }
-
   }
 
   createOrder(email) {
@@ -170,7 +172,7 @@ export default class App extends Component {
         amount: file.amount,
       };
     });
-    createOrder(files, email)
+    createOrder(files, email, this.state.delivery)
       .then((result) => {
         alert(result.message);
       });
@@ -185,6 +187,13 @@ export default class App extends Component {
     })
   }
 
+  onDeliveryChange(e) {
+    console.log(e.target.value);
+    this.setState({
+      ...this.state,
+      delivery: e.target.value,
+    })
+  }
 
 	render(props, state) {
     let details = _.map(state.files, (value, id) => {
@@ -206,7 +215,9 @@ export default class App extends Component {
         totalPrice += file.price*file.amount;
       }
     });
-    console.log(totalPrice);
+    if(state.delivery === 'express') {
+      totalPrice = totalPrice*1.3;
+    }
 		return (
 			<div id="app">
         <div>
@@ -217,6 +228,7 @@ export default class App extends Component {
         {details}
         {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
         {state.files.length ? <hr /> : null}
+        {state.files.length ? <Delivery delivery={state.delivery} onValueChange={this.onDeliveryChange} /> : null}
         {state.files.length ? (<div>
           <label>Celková cena</label>
           <span>{Math.round(totalPrice)},-Kč</span>

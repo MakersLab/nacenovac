@@ -88,6 +88,8 @@ def order():
     file['price'] = round(individualPrice,2)
     file['name'] = fileDb.name
     file['content'] = loadFromFile(os.path.join(CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True)
+  if data['delivery'] == 'express':
+    orderPrice = orderPrice*1.3
   orderDb = Order(data['email'], orderPrice)
   dbSession.add(orderDb)
   dbSession.commit()
@@ -109,7 +111,8 @@ def order():
       content = template.render(
         files=files,
         price=orderPrice,
-        orderId=orderId)
+        orderId=orderId,
+        delivery=data['delivery'])
       messageForClient = email.createMessage(
         EMAIL_CONFIG['email'],
         data['email'],
@@ -127,7 +130,8 @@ def order():
         files=files,
         price=orderPrice,
         orderId=orderId,
-        email=data['email'])
+        email=data['email'],
+        delivery = data['delivery'])
       messageForCompany = email.createMessage(
         EMAIL_CONFIG['email'],
         EMAIL_CONFIG['order-to'],

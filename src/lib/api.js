@@ -31,9 +31,10 @@ export const getFilePrice = (fileId, filament) => {
   return request('POST', '/pricing', {fileId, filament});
 };
 
-export const createOrder = (files, email) => {
+export const createOrder = (files, email, delivery) => {
   return request('POST', '/order', {
     files,
     email,
+    delivery,
   },);
 };
