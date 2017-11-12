@@ -19,13 +19,14 @@ class Email:
     self.connection.login(self.login, self.password)
 
   @staticmethod
-  def createMessage(sender, receiver, subject, content, fileContent=None, fileName=None):
+  def createMessage(sender, receiver, subject, content, files=None):
     message = None
     text = MIMEText(content, 'html')
-    if (fileContent and fileName):
+    if (files):
       message = MIMEMultipart()
-      file = MIMEApplication(fileContent, Name=fileName)
-      message.attach(file)
+      for file in files:
+        file = MIMEApplication(file['content'], Name=file['name'])
+        message.attach(file)
       message.attach(text)
     else:
       message = text
@@ -43,27 +44,3 @@ class Email:
       self.connection.sendmail(message['From'], message['To'], message.as_string())
     self.connection.quit()
 
-if __name__ == '__main__':
-  config = loadYaml('../../email/email.yml')
-  mail = Email(config['server'], config['port'], config['email'], config['password'])
-
-  #
-  messageForClient = mail.createMessage(
-    config['email'],
-    'devastor555@gmail.com',
-    'Your newly created order is registered and we are working on it',
-    'New order for 3D print shop')
-  mail.send(messageForClient)
-
-  env = Environment(loader=FileSystemLoader('../../email/'))
-  template = env.get_template('company.jinja2')
-  content = template.render(filament='the blue one...plastic', price='between 10 and 20')
-
-  messageForCompany = mail.createMessage(
-    config['email'],
-    config['order-to'],
-    'new order',
-    content,
-    loadFromFile('../../data/stl/Flower_pot_3-7bde90.STL', bytes=True),
-    'flower-pot.stl')
-  mail.send(messageForCompany)
