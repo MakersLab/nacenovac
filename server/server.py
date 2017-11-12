@@ -74,9 +74,20 @@ def getFilaments():
 @app.route('/order', methods=['POST'])
 def order():
   data = loads(request.form['data'])
-  fileDb = File.query.filter_by(id=data['fileId']).first()
-  selectedFilament = FILAMENTS[data['filament']]
-  orderPrice = price(fileDb.printTime, fileDb.filamentUsed, selectedFilament)*data['amount']
+  files = data['files']
+  filesDb = []
+  orderPrice = 0
+  for file in files:
+    fileDb = File.query.filter_by(id=file['id']).first()
+    filesDb.append(fileDb)
+    filament = FILAMENTS[file['filament']]
+    individualPrice = price(fileDb.printTime, fileDb.filamentUsed, filament)*file['amount']
+    orderPrice += individualPrice
+    file['color'] = filament['color-name']
+    file['material'] = filament['material']
+    file['price'] = round(individualPrice,2)
+    file['name'] = fileDb.name
+    file['content'] = loadFromFile(os.path.join(CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True)
   orderDb = Order(data['email'], orderPrice)
   dbSession.add(orderDb)
   dbSession.commit()
@@ -84,7 +95,11 @@ def order():
 
   @execute
   def sendMail():
-    fileDb = File.query.filter_by(id=data['fileId']).first()
+    filesDb = []
+    for file in files:
+      fileDb = File.query.filter_by(id=file['id']).first()
+      filesDb.append(fileDb)
+
     orderDb = Order.query.filter_by(id=orderId).first()
 
     email = Email(EMAIL_CONFIG['server'], EMAIL_CONFIG['port'], EMAIL_CONFIG['email'], EMAIL_CONFIG['password'])
@@ -92,9 +107,7 @@ def order():
     try:
       template = env.get_template('client.jinja2')
       content = template.render(
-        fileName=data['fileName'],
-        filament=FILAMENTS[data['filament']],
-        amount=data['amount'],
+        files=files,
         price=orderPrice,
         orderId=orderId)
       messageForClient = email.createMessage(
@@ -111,25 +124,24 @@ def order():
     try:
       template = env.get_template('company.jinja2')
       content = template.render(
-        fileName=data['fileName'],
-        filament=FILAMENTS[data['filament']],
-        amount=data['amount'],
+        files=files,
         price=orderPrice,
-        orderId=orderId)
+        orderId=orderId,
+        email=data['email'])
       messageForCompany = email.createMessage(
         EMAIL_CONFIG['email'],
         EMAIL_CONFIG['order-to'],
         '3D továrna - objednávka č. S{orderId}'.format(orderId=orderId),
         content,
-        loadFromFile(os.path.join(PATH, CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True),
-        fileDb.name)
+        files,
+        )
       email.send(messageForCompany)
       orderDb.emailSentToCompany = True
       dbSession.commit()
     except Exception as e:
       pass
 
-  return dumps({'message': 'new order was created'})
+  return dumps({'message': 'new order was created', 'successful': True})
 
 @app.teardown_appcontext
 def shutdownSession(exception=None):
