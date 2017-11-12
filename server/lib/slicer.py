@@ -1,42 +1,48 @@
 import subprocess
 import re
 import os
-from lib.utils import loadYaml, getPath
-
-config = loadYaml('../config.yml')
+import configparser
+from lib.utils import loadYaml, loadFromFile, getPath
+from config import PATH, CONFIG
 
 printTimeRegex = r'Print time: (\d*)'
 filamentRegex = r'Filament: (\d*)'
 
 
-def runSlicerCommand(stlPath, resultGcodePath):
+def runSlicerCommand(stlPath, resultGcodePath, settings):
   command = subprocess.Popen(
-    '{curaExecutable} slice -v -j {definitionPath} -o {resultGcodePath}.gcode -l {stlPath}'
+    '{curaExecutable} slice -v -j {definitionPath} {settings} -o {resultGcodePath}.gcode -l {stlPath}'
       .format(
-      curaExecutable=config['slicer']['executable'],
-      definitionPath=config['slicer']['printer-definition'],
+      curaExecutable=CONFIG['slicer']['executable'],
+      definitionPath=CONFIG['slicer']['printer-definition'],
       stlPath=stlPath,
-      resultGcodePath=resultGcodePath
+      resultGcodePath=resultGcodePath,
+      settings=settings
     ),
     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   _, output = command.communicate()
-  output = output.decode(config['terminal-encoding'])
+  output = output.decode(CONFIG['terminal-encoding'])
   return output, None
 
 
-def slice(path, stlFileName):
-  stlPath = os.path.join(path, config['stl-upload-directory'], stlFileName)
-  resultGcodePath = os.path.join(path, config['gcode-directory'], stlFileName)
-
+def slice(stlFileName, profilePath=None):
+  stlPath = os.path.join(PATH, CONFIG['stl-upload-directory'], stlFileName)
+  resultGcodePath = os.path.join(PATH, CONFIG['gcode-directory'], stlFileName)
+  # settings = generateSettings(CONFIG['slicer']['profiles']['draft'])
+  settings = loadFromFile(os.path.join(CONFIG['settings-directory'], CONFIG['slicer']['settings']['low']))
   if not os.path.isfile(stlPath):
     return None, 'STL at {} does not exist'.format(stlPath)
-
-  result, err = runSlicerCommand(stlPath, resultGcodePath)
+  result, err = runSlicerCommand(stlPath, resultGcodePath, settings)
   return {
-           'printTime': int(re.findall(printTimeRegex, result)[0]),
-           'filament': int(re.findall(filamentRegex, result)[0]),
-         }, err
+    'printTime': int(re.findall(printTimeRegex, result)[0]),
+    'filament': int(re.findall(filamentRegex, result)[0]),}, err
 
 
-if (__name__ == '__main__'):
-  print(slice('3DBenchy.stl'))
+def generateSettings(path):
+  profile = configparser.ConfigParser()
+  profile.read_string(loadFromFile(path))
+  settings = []
+  if 'values' in profile.sections():
+    for option in profile.options('values'):
+      settings.append('-s {0}="{1}"'.format(option, profile['values'][option]))
+  return ' '.join(settings)
