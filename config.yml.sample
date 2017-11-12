@@ -7,9 +7,14 @@ slicer:
     high: path
     low: path
     normal: path
+  settings:
+      low: filename
 stl-upload-directory: relative path
 gcode-directory: relative path
-terminal-encoding: utf-8
+settings-directory: relative path
+profiles-directory: path
+ADMesh-executable: path
 filaments-config: relative path
 email-config: relative path
-ADMesh-executable: path
+database: data/database.db
+terminal-encoding: utf-8
