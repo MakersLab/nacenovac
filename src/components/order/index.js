@@ -41,7 +41,7 @@ export default class Order extends Component {
               label="email"
               onChange={(e) => {this.handleInputChange(e, 'email')}}
               value={state.form.email}/>
-            <input class="button" type="submit" value="Create order"/>
+            <input class="button" type="submit" value="Vytvořit objednávku"/>
           </form>
         </div>
       </div>);

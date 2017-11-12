@@ -35,7 +35,7 @@ export default class FileUpload extends Component {
             className={style['file']}
             accept=".stl"
           >
-            <div class={style['file__text']}>drag and drop file in or click to open file dialog</div>
+            <div class={style['file__text']}>přetáhněte sem soubor nebo klikněte pro otevření systémového dialogu</div>
           </Dropzone>
         </div>
         {/*<div class={`one column offset-by-two ${style['button']}`}>*/}

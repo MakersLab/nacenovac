@@ -23,20 +23,17 @@ export const uploadFileForPricing = (file) => {
   return request('POST', '/upload', undefined, file);
 };
 
-export const sliceFile = (fileName, filament) => {
-  return request('POST', '/slice', { fileId: fileName, filament });
+export const sliceFile = (fileId, filament) => {
+  return request('POST', '/slice', { fileId, filament });
 };
 
-export const getFilePrice = (sliceResult, filament) => {
-  return request('POST', '/pricing', {sliceResult, filament});
+export const getFilePrice = (fileId, filament) => {
+  return request('POST', '/pricing', {fileId, filament});
 };
 
-export const createOrder = (fileName, fileId, email, filament, amount) => {
+export const createOrder = (files, email) => {
   return request('POST', '/order', {
-    fileName,
-    fileId,
+    files,
     email,
-    filament,
-    amount,
   },);
 };

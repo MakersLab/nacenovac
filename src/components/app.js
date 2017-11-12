@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import FileUpload from './file-upload/';
-import Details from './details/';
+import File from './file/';
 import Results from './results/';
 import Order from './order/';
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
@@ -20,6 +20,7 @@ export default class App extends Component {
       amount: 1,
       sliceResult: null,
       selectedFilament: null,
+      files: []
     };
 
     this.getAvailableFilaments();
@@ -34,7 +35,6 @@ export default class App extends Component {
   getAvailableFilaments() {
     getFilaments()
       .then((result) => {
-        console.log(result.filaments);
         this.setState({
           ...this.state,
           filaments: result.filaments,
@@ -42,6 +42,20 @@ export default class App extends Component {
         });
       });
 
+  }
+
+  updateFileValue(currentFile, values) {
+    const files = [...this.state.files];
+    let file = files[currentFile];
+    file = {
+      ...file,
+      ...values,
+    };
+    files[currentFile] = file;
+    this.setState({
+      ...this.state,
+      files,
+    });
   }
 
   changeCurrentPage(page) {
@@ -53,22 +67,30 @@ export default class App extends Component {
 
   confirmChooseFile(file) {
     if(!this.state.pendingRequest) {
+      const fileObj = {
+        file,
+        name: file.name,
+        amount: 1,
+      };
       this.setState({
         ...this.state,
         fileName: file.name,
         pendingRequest: 'uploading-file',
         sliceResult: null,
+        files: _.concat(this.state.files,fileObj),
       });
+      const currentFile = this.state.files.length - 1;
 
       uploadFileForPricing(file)
-        .then((results) => {
+        .then((result) => {
+          this.updateFileValue(currentFile, { id: result.fileId });
           this.setState({
             ...this.state,
             pendingRequest: null,
-            fileId: results.fileId,
+            fileId: result.fileId,
           });
           // TODO use currently selected filament on file upload, not the first one
-          this.slice(this.state.filaments[Object.keys(this.state.filaments)[0]].id);
+          this.slice(this.state.filaments[Object.keys(this.state.filaments)[0]].id, currentFile);
       })
         .catch((err) => {
           throw err;
@@ -77,24 +99,26 @@ export default class App extends Component {
     this.changeCurrentPage('details')
   }
 
-  slice(filament) {
+  slice(filament, currentFile) {
     if(!this.state.pendingRequest) {
 
+      this.updateFileValue(currentFile, { filament });
       this.setState({
         ...this.state,
         pendingRequest: 'slicing',
         sliceResult: null,
       });
 
-      sliceFile(this.state.fileId, filament)
+      sliceFile(this.state.files[currentFile].id, filament)
       .then((result) => {
         if(result.error === undefined) {
+          this.updateFileValue(currentFile, { price: result.price, dimensions: result.dimensions });
           this.setState({
             ...this.state,
             pendingRequest: null,
             sliceResult: {
               ...result
-            }
+            },
           })
         }
       })
@@ -103,22 +127,24 @@ export default class App extends Component {
     this.changeCurrentPage('results');
   }
 
-  onItemAmountChange(amount) {
+  onItemAmountChange(amount, currentFile) {
+    this.updateFileValue(currentFile, { amount });
     this.setState({
       ...this.state,
       amount,
     })
   }
 
-  analyze(filament) {
+  analyze(filament, currentFile) {
     if(!this.state.pendingRequest) {
         this.setState({
         ...this.state,
         pendingRequest: 'analyzing',
       });
 
-      getFilePrice(this.state.sliceResult, filament)
+      getFilePrice(this.state.files[currentFile].id, filament)
       .then((result) => {
+        this.updateFileValue(currentFile, { price: result.price });
         this.setState({
           ...this.state,
           selectedFilament: filament,
@@ -137,24 +163,66 @@ export default class App extends Component {
   }
 
   createOrder(email) {
-    createOrder(this.state.fileName, this.state.fileId, email, this.state.selectedFilament, this.state.amount)
+    let files = _.map(this.state.files, (file) => {
+      return {
+        id: file.id,
+        filament: file.filament,
+        amount: file.amount,
+      };
+    });
+    createOrder(files, email)
       .then((result) => {
         alert(result.message);
       });
   }
 
+  removeFile(currentFile) {
+    const files = [...this.state.files];
+    files.splice(currentFile,1);
+    this.setState({
+      ...this.state,
+      files,
+    })
+  }
+
+
 	render(props, state) {
+    let details = _.map(state.files, (value, id) => {
+      return(
+        <File
+          analyze={(filament) => { this.analyze(filament, id) }}
+          filename={value.name}
+          filaments={state.filaments}
+          price={value.price}
+          dimensions={value.dimensions}
+          onItemAmountChange={(amount) => {this.onItemAmountChange(amount, id)}}
+          remove={() => {this.removeFile(id)}}
+        />
+      )
+    });
+    let totalPrice = 0;
+      _.forEach(state.files, (file) => {
+      if (file.price) {
+        totalPrice += file.price*file.amount;
+      }
+    });
+    console.log(totalPrice);
 		return (
 			<div id="app">
         <div>
-          <h1>3D Print shop</h1>
+          <h1>3D Obchod</h1>
         </div>
         <FileUpload confirmChooseFile={this.confirmChooseFile}/>
-        {state.fileName ? <hr /> : null}
-        <Details analyze={this.analyze} filename={state.fileName} filaments={state.filaments} sliceResult={state.sliceResult} onItemAmountChange={this.onItemAmountChange}/>
+        {state.files.length ? <hr /> : null}
+        {details}
         {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
-        {state.fileName ? <hr /> : null}
-        {state.fileName ? <Order createOrder={this.createOrder} /> : null}
+        {state.files.length ? <hr /> : null}
+        {state.files.length ? (<div>
+          <label>Celková cena</label>
+          <span>{Math.round(totalPrice)},-Kč</span>
+        </div>) : null}
+        {state.files.length ? <hr /> : null}
+        {state.files.length ? <Order createOrder={this.createOrder} /> : null}
 			</div>
 		);
 	}
