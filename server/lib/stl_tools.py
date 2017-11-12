@@ -3,7 +3,7 @@ import re
 import os
 from lib.utils import loadYaml
 
-config = loadYaml('../config.yml')
+config = loadYaml('./config.yml')
 
 dimensionsRegex = r'{type} = +(\-?\d+\.\d+)'
 types = {

@@ -3,19 +3,18 @@ import json
 import os
 import uuid
 
-def loadFromFile(fileName, projectPath = None, bytes=False):
-    if projectPath:
-      path = os.path.join(projectPath, fileName)
-    else:
-      path = os.path.join('/'.join(os.path.dirname(__file__).split('/')[0:-1]), fileName)
+def loadFromFile(path, bytes=False):
+    from config import PATH
+    if not os.path.isabs(path):
+      path = os.path.join(PATH, path)
     readType = 'r' if not bytes else 'rb'
     with open(path, readType) as file:
         fileContents = file.read()
         file.close()
     return fileContents
 
-def loadYaml(fileName, projectPath = None):
-    return yaml.load(loadFromFile(fileName, projectPath))
+def loadYaml(fileName):
+    return yaml.load(loadFromFile(fileName))
 
 def loadJson(fileName):
     return json.loads(loadFromFile(fileName))
@@ -26,11 +25,9 @@ def writeFile(fileName, content):
         file.write(content)
         file.close()
 
-def getProjectPath(file):
-  return '/'.join(os.path.dirname(file).split('\\')[0:-1])+'/'
-
-def getPath(projectPath, path):
-  return os.path.join(projectPath, path)
+def getPath(path):
+  from config import PATH
+  return os.path.join(PATH, path)
 
 def addUniqueIdToFile(filename):
     splitFilename = filename.split('.')

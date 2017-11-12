@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from config import CONFIG, PATH
 from lib.utils import getPath
 
-engine = create_engine('sqlite:///{0}'.format(getPath(PATH, CONFIG['database'])),
+engine = create_engine('sqlite:///{0}'.format(getPath(CONFIG['database'])),
                        convert_unicode=True)
 dbSession = scoped_session(sessionmaker(autocommit=False,
                                         autoflush=False,

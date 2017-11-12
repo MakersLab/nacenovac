@@ -8,7 +8,7 @@ from time import time
 
 from lib.slicer import slice
 from lib.stl_tools import analyzeSTL
-from lib.utils import getProjectPath, getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict
+from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict
 from lib.pricing import price
 from lib.email_util import Email
 from lib.background_task import execute
@@ -44,7 +44,7 @@ def sliceFile():
   data = loads(request.form['data'])
   fileDb = File.query.filter_by(id=data['fileId']).first()
   fileName = fileDb.fileName
-  result, err = slice(PATH, fileName)
+  result, err = slice(fileName)
   if not err:
     result['price'] = price(result['printTime'], result['filament'], FILAMENTS[data['filament']])
     result['dimensions'] = analyzeSTL(PATH, fileName)
@@ -58,15 +58,15 @@ def sliceFile():
 @app.route('/pricing', methods=['POST'])
 def getPrice():
   data = loads(request.form['data'])
-  sliceResult = data['sliceResult']
+  fileDb = File.query.filter_by(id=data['fileId']).first()
   filament = data['filament']
-  return dumps({'price': price(sliceResult['printTime'], sliceResult['filament'], FILAMENTS[filament])})
+  return dumps({'price': price(fileDb.printTime, fileDb.filamentUsed, FILAMENTS[filament])})
 
 
 @app.route('/filaments', methods=['POST'])
 def getFilaments():
   response = {
-    'filaments': removeValueFromDict(loadYaml(CONFIG['filaments-config'], PATH), 'price')
+    'filaments': removeValueFromDict(loadYaml(CONFIG['filaments-config']), 'price')
   }
   return dumps(response)
 
