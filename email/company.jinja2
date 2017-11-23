@@ -27,8 +27,14 @@
         <div>
             Zákazníkův email <b>{{ email }}</b>
         </div>
+        {% if details %}
+            <br>
+            <b>Požadavky od zákazníka:</b>
+            <p class="customer__request">
+                {{ details }}
+            </p>
+        {% endif %}
         <div>
-            Ohledně realizace se Vam v nejbližší možné době ozveme.
         </div>
     </div>
 {% endblock %}
