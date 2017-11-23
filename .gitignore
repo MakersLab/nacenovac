@@ -8,3 +8,4 @@ data/filaments.yml
 email/email.yml
  *.pyc
 data/database.db
+.idea
