@@ -76,8 +76,7 @@ def order():
   data = loads(request.form['data'])
   files = data['files']
   filesDb = []
-
-  orderDb = Order(data['email'], delivery=data['delivery'], details=data['delivery'])
+  orderDb = Order(data['email'], delivery=data['delivery'], details=data['details'])
   orderPrice = 0
   for file in files:
     fileDb = File.query.filter_by(id=file['id']).first()
@@ -90,11 +89,11 @@ def order():
     orderPrice += individualPrice
     file['color'] = filament['color-name']
     file['material'] = filament['material']
-    file['price'] = round(individualPrice,2)
+    file['price'] = individualPrice
     file['name'] = fileDb.name
     file['content'] = loadFromFile(os.path.join(CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True)
   if data['delivery'] == 'express':
-    orderPrice = orderPrice*1.3
+    orderPrice = round(orderPrice*1.3)
 
   orderDb.price = orderPrice
   dbSession.add(orderDb)
@@ -111,7 +110,7 @@ def order():
     orderDb = Order.query.filter_by(id=orderId).first()
 
     email = Email(EMAIL_CONFIG['server'], EMAIL_CONFIG['port'], EMAIL_CONFIG['email'], EMAIL_CONFIG['password'])
-
+    details = data['details'].replace('\n','<br>')
     try:
       template = env.get_template('client.jinja2')
       content = template.render(
@@ -137,7 +136,8 @@ def order():
         price=orderPrice,
         orderId=orderId,
         email=data['email'],
-        delivery = data['delivery'])
+        delivery=data['delivery'],
+        details=details)
       messageForCompany = email.createMessage(
         EMAIL_CONFIG['email'],
         EMAIL_CONFIG['order-to'],
