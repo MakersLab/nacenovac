@@ -3,7 +3,7 @@ import FileUpload from './file-upload/';
 import File from './file/';
 import Results from './results/';
 import Order from './order/';
-import Delivery from './delivery/';
+import Details from './details/';
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
 import { convertObjectToArray } from '../lib/utils'
 
@@ -22,7 +22,8 @@ export default class App extends Component {
       sliceResult: null,
       selectedFilament: null,
       files: [],
-      delivery: 'standard'
+      delivery: 'standard',
+      details: '',
     };
 
     this.getAvailableFilaments();
@@ -32,7 +33,7 @@ export default class App extends Component {
     this.confirmChooseFile = this.confirmChooseFile.bind(this);
     this.createOrder = this.createOrder.bind(this);
     this.onItemAmountChange = this.onItemAmountChange.bind(this);
-    this.onDeliveryChange = this.onDeliveryChange.bind(this);
+    this.genericOnValueChange = this.genericOnValueChange.bind(this);
   }
 
   getAvailableFilaments() {
@@ -147,7 +148,7 @@ export default class App extends Component {
 
       getFilePrice(this.state.files[currentFile].id, filament)
       .then((result) => {
-        this.updateFileValue(currentFile, { price: result.price });
+        this.updateFileValue(currentFile, { price: result.price, filament });
         this.setState({
           ...this.state,
           selectedFilament: filament,
@@ -172,7 +173,7 @@ export default class App extends Component {
         amount: file.amount,
       };
     });
-    createOrder(files, email, this.state.delivery)
+    createOrder(files, email, this.state.delivery, this.state.details)
       .then((result) => {
         alert(result.message);
       });
@@ -187,11 +188,10 @@ export default class App extends Component {
     })
   }
 
-  onDeliveryChange(e) {
-    console.log(e.target.value);
-    this.setState({
+  genericOnValueChange(type, e) {
+        this.setState({
       ...this.state,
-      delivery: e.target.value,
+      [type]: e.target.value,
     })
   }
 
@@ -228,7 +228,13 @@ export default class App extends Component {
         {details}
         {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
         {state.files.length ? <hr /> : null}
-        {state.files.length ? <Delivery delivery={state.delivery} onValueChange={this.onDeliveryChange} /> : null}
+        {state.files.length ?
+          <Details
+            delivery={state.delivery}
+            onDeliveryChange={(e) => {this.genericOnValueChange('delivery', e);}}
+            details={state.details}
+            onDetailsChange={(e) => {this.genericOnValueChange('details', e);}}
+          /> : null}
         {state.files.length ? (<div>
           <label>Celková cena</label>
           <span>{Math.round(totalPrice)},-Kč</span>
