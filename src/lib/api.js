@@ -1,4 +1,12 @@
-const address = 'http://opeteth.mooo.com:8040';
+let apiURL;
+if (typeof window !== 'undefined') {
+  apiURL = new URL(document.location);
+}
+else {
+  apiURL = new URL('http://localhost:8080');
+}
+apiURL.port = 8040;
+const address = apiURL.origin;
 const request = (method, uri, data = undefined, file = undefined) => {
   const formData = new FormData();
   if(data) {
