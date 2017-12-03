@@ -3,24 +3,24 @@ import re
 import os
 import configparser
 from lib.utils import loadYaml, loadFromFile, getPath
-from config import PATH, CONFIG
+from config import PATH, CONFIG, OS
 
 printTimeRegex = r'Print time: (\d*)'
 filamentRegex = r'Filament: (\d*)'
 
 
 def runSlicerCommand(stlPath, resultGcodePath, settings):
-  command = subprocess.Popen(
-    '{curaExecutable} slice -v -j {definitionPath} {settings} -o {resultGcodePath}.gcode -l {stlPath}'
-      .format(
+  command = '{curaExecutable} slice -v -j {definitionPath} {settings} -o {resultGcodePath}.gcode -l {stlPath}'\
+    .format(
       curaExecutable=CONFIG['slicer']['executable'],
       definitionPath=CONFIG['slicer']['printer-definition'],
       stlPath=stlPath,
       resultGcodePath=resultGcodePath,
       settings=settings
-    ),
-    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-  _, output = command.communicate()
+    )
+  command = command.replace('\n', '')
+  launchedCommand = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell= (OS == 'linux'))
+  _, output = launchedCommand.communicate()
   output = output.decode(CONFIG['terminal-encoding'])
   return output, None
 

@@ -2,6 +2,7 @@ import subprocess
 import re
 import os
 from lib.utils import loadYaml
+from config import OS
 
 config = loadYaml('./config.yml')
 
@@ -16,7 +17,7 @@ def analyzeSTL(path, fileName):
   command = subprocess.Popen('{ADMeshExecutable} {stlFilePath}'.format(
     ADMeshExecutable=config['ADMesh-executable'],
     stlFilePath = os.path.join(path, config['stl-upload-directory'], fileName)
-  ), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  ), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=(OS == 'linux'))
   output, err = command.communicate()
   output = output.decode(config['terminal-encoding'])
   dimensions = {}

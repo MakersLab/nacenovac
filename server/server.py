@@ -1,3 +1,6 @@
+# !/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request, g
 from werkzeug.utils import secure_filename
 from json import dumps, loads
