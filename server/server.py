@@ -154,7 +154,13 @@ def order():
     except Exception as e:
       pass
 
-  return dumps({'message': 'new order was created', 'successful': True})
+  return dumps({
+    'message': 'new order was created',
+    'order': {
+      'orderId': orderId
+    },
+    'successful': True}
+  )
 
 @app.teardown_appcontext
 def shutdownSession(exception=None):
