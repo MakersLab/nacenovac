@@ -40,7 +40,9 @@ export default class Order extends Component {
               type="email"
               label="email"
               onChange={(e) => {this.handleInputChange(e, 'email')}}
-              value={state.form.email}/>
+              value={state.form.email}
+              class={style['email-input']}
+            />
             <input class="button" type="submit" value="Vytvořit objednávku"/>
           </form>
         </div>
