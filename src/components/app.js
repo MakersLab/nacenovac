@@ -4,6 +4,7 @@ import File from './file/';
 import Results from './results/';
 import Order from './order/';
 import Details from './details/';
+import FinishOrder from './finish-order'
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
 import { convertObjectToArray } from '../lib/utils'
 
@@ -15,15 +16,14 @@ export default class App extends Component {
       currentPage: 'file-upload',
       pendingRequest: null,
       results: null,
-      fileId: null,
-      fileName: null,
       filaments: null,
       amount: 1,
       sliceResult: null,
       selectedFilament: null,
-      files: [],
+      files: [0],
       delivery: 'standard',
       details: '',
+      order: null,
     };
 
     this.getAvailableFilaments();
@@ -175,7 +175,10 @@ export default class App extends Component {
     });
     createOrder(files, email, this.state.delivery, this.state.details)
       .then((result) => {
-        alert(result.message);
+        this.setState({
+          ...this.state,
+          order: result.order,
+        });
       });
   }
 
@@ -220,27 +223,38 @@ export default class App extends Component {
     }
 		return (
 			<div id="app">
-        <div>
-          <h1>3D Obchod</h1>
-        </div>
-        <FileUpload confirmChooseFile={this.confirmChooseFile}/>
-        {state.files.length ? <hr /> : null}
-        {details}
-        {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
-        {state.files.length ? <hr /> : null}
-        {state.files.length ?
-          <Details
-            delivery={state.delivery}
-            onDeliveryChange={(e) => {this.genericOnValueChange('delivery', e);}}
-            details={state.details}
-            onDetailsChange={(e) => {this.genericOnValueChange('details', e);}}
-          /> : null}
-        {state.files.length ? (<div>
-          <label>Celková cena</label>
-          <span>{Math.round(totalPrice)},-Kč</span>
-        </div>) : null}
-        {state.files.length ? <hr /> : null}
-        {state.files.length ? <Order createOrder={this.createOrder} /> : null}
+        {!state.order ?
+          <div>
+            <div>
+              <h1>3D Obchod</h1>
+            </div>
+            <FileUpload confirmChooseFile={this.confirmChooseFile}/>
+            {state.files.length ? <hr /> : null}
+            {details}
+            {state.files.length ? (<div>
+              <label>Celková cena</label>
+              <span>{Math.round(totalPrice)},-Kč</span>
+            </div>) : null}
+            {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
+            {state.files.length ? <hr /> : null}
+            {state.files.length ?
+              <Details
+                delivery={state.delivery}
+                onDeliveryChange={(e) => {this.genericOnValueChange('delivery', e);}}
+                details={state.details}
+                onDetailsChange={(e) => {this.genericOnValueChange('details', e);}}
+              /> : null}
+            {state.files.length ? <hr /> : null}
+            {state.files.length ? <Order createOrder={this.createOrder} /> : null}
+          </div>
+        :
+          <div>
+            <FinishOrder
+              state={state}
+            />
+          </div>
+        }
+
 			</div>
 		);
 	}
