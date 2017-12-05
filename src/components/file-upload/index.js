@@ -2,7 +2,6 @@ import { h, Component } from 'preact';
 import Dropzone from 'react-dropzone';
 import style from './style';
 
-
 export default class FileUpload extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ export default class FileUpload extends Component {
             className={style['file']}
             accept=".stl"
           >
-            <div class={style['file__text']}>přetáhněte sem soubor nebo klikněte pro otevření systémového dialogu</div>
+            <div class={style['file__text']}>Přidejte model ve formátu STL přetáhnutím souboru nebo kliknutím</div>
           </Dropzone>
         </div>
         {/*<div class={`one column offset-by-two ${style['button']}`}>*/}
