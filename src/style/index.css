@@ -5,7 +5,7 @@ html, body {
 	padding: 0;
 	margin: 0;
 	/*background: linear-gradient(45deg, #2f9ca8, #b04d9b);*/
-	background: linear-gradient(310deg, #edff40, #b06e8b);
+	background: linear-gradient(28deg, #ffed63, #15d7da);
 	font-family: 'Helvetica Neue', arial, sans-serif;
 	font-weight: 400;
 	color: #444;
@@ -34,4 +34,8 @@ html, body {
   position: relative;
   top: 50%;
   transform: translate(0, -50%);
+}
+
+h2 {
+  font-size: 1.7em;
 }
