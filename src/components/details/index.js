@@ -5,7 +5,7 @@ import style from './style';
 export default class Delivery extends Component {
   render(props, state) {
     return(
-    <form>
+    <form onSubmit={e => { e.preventDefault(); }}>
       <div>
         <label>Druh dodání</label>
         <label>

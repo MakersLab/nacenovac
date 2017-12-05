@@ -87,7 +87,10 @@ export default class File extends Component {
   render(props, state) {
       const dimensions = props.dimensions || { x:0, y:0, z:0 };
       return(
-        <form class={`${style['details']} container`}>
+        <form
+          class={`${style['details']} container`}
+          onSubmit={e => { e.preventDefault(); }}
+        >
           <div class="row">
             <div class={style['details__detail-item']}>
               <div class={style['detail-item__filename']}>
