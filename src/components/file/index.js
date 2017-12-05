@@ -112,7 +112,15 @@ export default class File extends Component {
             </div>
             <div class={style['details__detail-item']}>
               <label>Počet:</label>
-              <input class={style['detail-item__amount']} type="number" min="1" max="20" value={state.amount} onChange={(e) => { this.handleValueChange(e, 'amount'); }} />
+              <input
+                class={style['detail-item__amount']}
+                type="number"
+                min="1"
+                max="20"
+                value={state.amount}
+                onChange={(e) => { this.handleValueChange(e, 'amount'); }}
+                onClick={(e) => { this.handleValueChange(e, 'amount'); }}
+              />
             </div>
             <div class={`${style['details__detail-item']}`}>
               <label>Cena:</label>
