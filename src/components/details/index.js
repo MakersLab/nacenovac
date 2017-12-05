@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import _ from 'lodash';
+import style from './style';
 
 export default class Delivery extends Component {
   render(props, state) {
@@ -30,7 +31,7 @@ export default class Delivery extends Component {
       </div>
       <div>
         <label>Detaily k objednávce</label>
-        <textarea onChange={props.onDetailsChange}>
+        <textarea onChange={props.onDetailsChange} class={style['details__textarea']}>
           {props.details}
         </textarea>
       </div>
