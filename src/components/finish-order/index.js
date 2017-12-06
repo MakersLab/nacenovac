@@ -12,9 +12,9 @@ export default class FinishOrder extends Component {
       <p class="">
         Děkujeme, za Vaši objednávku. Budeme Vás kontaktovat. Detaily objednávky jsme Vám zaslali na email.
       </p>
-      <a class="button" href="http://3dtovarna.cz/" class={`button two columns offset-by-four ${style['button']}`}>
-        OK
-      </a>
+      {/*<a class="button" href="http://3dtovarna.cz/" class={`button two columns offset-by-four ${style['button']}`}>*/}
+        {/*OK*/}
+      {/*</a>*/}
     </div>
     );
   }
