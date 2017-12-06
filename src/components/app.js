@@ -53,15 +53,19 @@ export default class App extends Component {
   updateFileValue(currentFile, values) {
     const files = [...this.state.files];
     let file = files[currentFile];
-    file = {
-      ...file,
-      ...values,
-    };
-    files[currentFile] = file;
+    if(values) {
+      file = {
+        ...file,
+        ...values,
+      };
+      files[currentFile] = file;
+    } else {
+      files[currentFile] = null;
+    }
     this.setState({
-      ...this.state,
-      files,
-    });
+        ...this.state,
+        files,
+      });
   }
 
   changeCurrentPage(page) {
@@ -118,7 +122,7 @@ export default class App extends Component {
       sliceFile(this.state.files[currentFile].id, filament)
       .then((result) => {
         if(result.error === undefined) {
-          this.updateFileValue(currentFile, { price: result.price, dimensions: result.dimensions });
+          this.updateFileValue(currentFile, {price: result.price, dimensions: result.dimensions});
           this.setState({
             ...this.state,
             pendingRequest: null,
@@ -126,6 +130,10 @@ export default class App extends Component {
               ...result
             },
           })
+        } else {
+          alert('Zkontrolujte jestli je tento soubor validní STL');
+
+          this.updateFileValue(currentFile, null);
         }
       })
       .catch();
@@ -202,21 +210,23 @@ export default class App extends Component {
 
 	render(props, state) {
     let details = _.map(state.files, (value, id) => {
-      return(
-        <File
-          analyze={(filament) => { this.analyze(filament, id) }}
-          filename={value.name}
-          filaments={state.filaments}
-          price={value.price}
-          dimensions={value.dimensions}
-          onItemAmountChange={(amount) => {this.onItemAmountChange(amount, id)}}
-          remove={() => {this.removeFile(id)}}
-        />
-      )
+      if(value) {
+        return(
+          <File
+            analyze={(filament) => { this.analyze(filament, id) }}
+            filename={value.name}
+            filaments={state.filaments}
+            price={value.price}
+            dimensions={value.dimensions}
+            onItemAmountChange={(amount) => {this.onItemAmountChange(amount, id)}}
+            remove={() => {this.removeFile(id)}}
+          />
+        )
+      }
     });
     let totalPrice = 0;
       _.forEach(state.files, (file) => {
-      if (file.price) {
+      if (file && file.price) {
         totalPrice += file.price*file.amount;
       }
     });
@@ -227,9 +237,6 @@ export default class App extends Component {
 			<div id="app">
         {!state.order ?
           <div>
-            <div>
-              <h1>3D Obchod</h1>
-            </div>
             <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => { this.fileUploadRef = node }}/>
               {state.files.length ?
                 <div>
