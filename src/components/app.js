@@ -5,6 +5,7 @@ import Results from './results/';
 import Order from './order/';
 import Details from './details/';
 import FinishOrder from './finish-order'
+import * as FontAwesome from 'react-icons/lib/fa'
 import { uploadFileForPricing, sliceFile, getFilaments, createOrder, getFilePrice } from '../lib/api';
 import { convertObjectToArray } from '../lib/utils'
 
@@ -20,11 +21,12 @@ export default class App extends Component {
       amount: 1,
       sliceResult: null,
       selectedFilament: null,
-      files: [0],
+      files: [],
       delivery: 'standard',
       details: '',
       order: null,
     };
+    this.fileUploadRef = null;
 
     this.getAvailableFilaments();
 
@@ -228,24 +230,32 @@ export default class App extends Component {
             <div>
               <h1>3D Obchod</h1>
             </div>
-            <FileUpload confirmChooseFile={this.confirmChooseFile}/>
-            {state.files.length ? <hr /> : null}
-            {details}
-            {state.files.length ? (<div>
-              <label>Celková cena</label>
-              <span>{Math.round(totalPrice)},-Kč</span>
-            </div>) : null}
-            {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
-            {state.files.length ? <hr /> : null}
-            {state.files.length ?
-              <Details
-                delivery={state.delivery}
-                onDeliveryChange={(e) => {this.genericOnValueChange('delivery', e);}}
-                details={state.details}
-                onDetailsChange={(e) => {this.genericOnValueChange('details', e);}}
-              /> : null}
-            {state.files.length ? <hr /> : null}
-            {state.files.length ? <Order createOrder={this.createOrder} /> : null}
+            <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => { this.fileUploadRef = node }}/>
+              {state.files.length ?
+                <div>
+                  <hr/>
+                  {details}
+                  <div className="row">
+                    <a className="icon file-add-icon one column offset-by-five" onClick={() => { this.fileUploadRef.dropzoneRef.open() }}><FontAwesome.FaPlus/></a>
+                  </div>
+                  <hr/>
+                  <div className="row">
+                    <label>Celková cena</label>
+                    <span>{Math.round(totalPrice)},-Kč</span>
+                  </div>
+                  {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
+                  <hr/>
+                  <Details
+                    delivery={state.delivery}
+                    onDeliveryChange={(e) => {this.genericOnValueChange('delivery', e);}}
+                    details={state.details}
+                    onDetailsChange={(e) => {this.genericOnValueChange('details', e);}}
+                  />
+                  <hr />
+                  <Order createOrder={this.createOrder} />
+                </div>
+                : null}
+
           </div>
         :
           <div>
