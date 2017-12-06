@@ -6,6 +6,7 @@ export default class FileUpload extends Component {
   constructor(props) {
     super(props);
 
+    this.dropzoneRef = null;
     this.state = {
       isFileSelected: false,
       file: false,
@@ -33,6 +34,7 @@ export default class FileUpload extends Component {
             class={style['file']}
             className={style['file']}
             accept=".stl"
+            ref={(node) => { this.dropzoneRef = node; }}
           >
             <div class={style['file__text']}>Přidejte model ve formátu STL přetáhnutím souboru nebo kliknutím</div>
           </Dropzone>
