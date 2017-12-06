@@ -47,13 +47,15 @@ def sliceFile():
   data = loads(request.form['data'])
   fileDb = File.query.filter_by(id=data['fileId']).first()
   fileName = fileDb.fileName
-  result, err = slice(fileName)
+  dimensions, err = analyzeSTL(PATH, fileName)
   if not err:
-    result['price'] = price(result['printTime'], result['filament'], FILAMENTS[data['filament']])
-    result['dimensions'] = analyzeSTL(PATH, fileName)
-    fileDb.update(result['printTime'], result['filament'], result['dimensions'])
-    dbSession.commit()
-    return dumps(result)
+    result, err = slice(fileName)
+    if not err:
+      result['dimensions'] = dimensions
+      result['price'] = price(result['printTime'], result['filament'], FILAMENTS[data['filament']])
+      fileDb.update(result['printTime'], result['filament'], result['dimensions'])
+      dbSession.commit()
+      return dumps(result)
   else:
     return dumps({ 'error': err })
 

@@ -28,5 +28,5 @@ def analyzeSTL(path, fileName):
       dimensions[type] = abs(float(firstVal) - float(secondVal))
     except IndexError as e:
       print('unable to decode', output)
-      raise e
-  return dimensions
+      return None, True
+  return dimensions, err
