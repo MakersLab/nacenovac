@@ -14,3 +14,10 @@
 .detail-item__filename {
   font-weight: bold;
 }
+
+.remove-icon {
+  color: #d5514e;
+}
+.remove-icon:hover {
+  color: #b64845;
+}
