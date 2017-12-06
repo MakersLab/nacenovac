@@ -72,7 +72,7 @@ export default class App extends Component {
   }
 
   confirmChooseFile(file) {
-    if(!this.state.pendingRequest) {
+    if(true) {
       const fileObj = {
         file,
         name: file.name,
@@ -106,7 +106,7 @@ export default class App extends Component {
   }
 
   slice(filament, currentFile) {
-    if(!this.state.pendingRequest) {
+    if(true) {
 
       this.updateFileValue(currentFile, { filament });
       this.setState({
@@ -142,7 +142,7 @@ export default class App extends Component {
   }
 
   analyze(filament, currentFile) {
-    if(!this.state.pendingRequest) {
+    if(true) {
         this.setState({
         ...this.state,
         pendingRequest: 'analyzing',
