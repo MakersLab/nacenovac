@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import _ from 'lodash';
-import {convertObjectToArray} from '../../lib/utils'
+import * as FontAwesome from 'react-icons/lib/fa';
+import {convertObjectToArray} from '../../lib/utils';
 
 import style from './style';
 
@@ -88,11 +89,11 @@ export default class File extends Component {
       const dimensions = props.dimensions || { x:0, y:0, z:0 };
       return(
         <form
-          class={`${style['details']} container`}
+          class={`${style['details']}`}
           onSubmit={e => { e.preventDefault(); }}
         >
           <div class="row">
-            <div class={style['details__detail-item']}>
+            <div class={`three columns ${style['details__detail-item']}`}>
               <div class={style['detail-item__filename']}>
                 {props.filename}
               </div>
@@ -101,19 +102,19 @@ export default class File extends Component {
               </div>
             </div>
 
-            <div class={style['details__detail-item']}>
+            <div class={`two columns ${style['details__detail-item']}`}>
               <label class={style['title']}>Material:</label>
               <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedMaterial'); }}>
                 {this.getAvailableMaterialOptions()}
               </select>
             </div>
-            <div class={style['details__detail-item']}>
+            <div class={`two columns ${style['details__detail-item']}`}>
               <label class={style['title']}>Barva:</label>
               <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
                 {this.getAvailableColorOptions()}
               </select>
             </div>
-            <div class={style['details__detail-item']}>
+            <div class={`two columns ${style['details__detail-item']}`}>
               <label>Počet:</label>
               <input
                 class={style['detail-item__amount']}
@@ -125,12 +126,12 @@ export default class File extends Component {
                 onClick={(e) => { this.handleValueChange(e, 'amount'); }}
               />
             </div>
-            <div class={`${style['details__detail-item']}`}>
+            <div class={`two columns ${style['details__detail-item']}`}>
               <label>Cena:</label>
               <span>{props.price ? `${Math.round(props.price)*state.amount},- Kč`: 'calculating'}</span>
             </div>
-            <div class={`${style['details__detail-item']}`}>
-              <a onClick={this.props.remove}>X</a>
+            <div class={`one column ${style['details__detail-item']}`}>
+              <a class={`icon ${style['remove-icon']}`} onClick={this.props.remove}><FontAwesome.FaClose/></a>
             </div>
           </div>
         </form>);
