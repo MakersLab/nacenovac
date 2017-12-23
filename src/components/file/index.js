@@ -2,8 +2,16 @@ import { h, Component } from 'preact';
 import _ from 'lodash';
 import * as FontAwesome from 'react-icons/lib/fa';
 import {convertObjectToArray} from '../../lib/utils';
+import {PROGRESS_DONE, PROGRESS_SLICING, PROGRESS_UPLOADING} from '../../lib/constants'
+import { Spinner } from '../../assets/spinner/index';
 
 import style from './style';
+
+const progressText = {
+  [PROGRESS_UPLOADING]: 'uploading file',
+  [PROGRESS_SLICING]: 'slicing file',
+  [PROGRESS_DONE]: 'done',
+};
 
 export default class File extends Component {
   constructor(props) {
@@ -97,9 +105,16 @@ export default class File extends Component {
               <div class={style['detail-item__filename']}>
                 {props.filename}
               </div>
-              <div>
-                {`${dimensions.x.toFixed(1)} x ${dimensions.y.toFixed(1)} x ${dimensions.z.toFixed(1)}mm`}
-              </div>
+              {props.state !== PROGRESS_DONE ?
+                <div>
+                  {Spinner}
+                  {progressText[props.state]}
+                </div>
+                :
+                <div>
+                  {`${dimensions.x.toFixed(1)} x ${dimensions.y.toFixed(1)} x ${dimensions.z.toFixed(1)}mm`}
+                </div>
+              }
             </div>
 
             <div class={`two columns ${style['details__detail-item']}`}>
@@ -128,7 +143,7 @@ export default class File extends Component {
             </div>
             <div class={`two columns ${style['details__detail-item']}`}>
               <label>Cena:</label>
-              <span>{props.price ? `${Math.round(props.price)*state.amount},- Kč`: 'calculating'}</span>
+              <span>{props.price ? `${Math.round(props.price)*state.amount},- Kč`: '-'}</span>
             </div>
             <div class={`one column ${style['details__detail-item']}`}>
               <a class={`icon ${style['remove-icon']}`} onClick={this.props.remove}><FontAwesome.FaClose/></a>
