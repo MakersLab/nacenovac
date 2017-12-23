@@ -173,7 +173,7 @@ export default class App extends Component {
       })
   }
 
-  createOrder(email) {
+  createOrder(email, phone) {
     let files = _.map(this.state.files, (file) => {
       return {
         id: file.id,
@@ -181,7 +181,7 @@ export default class App extends Component {
         amount: file.amount,
       };
     });
-    createOrder(files, email, this.state.delivery, this.state.details)
+    createOrder(files, email, phone, this.state.delivery, this.state.details)
       .then((result) => {
         this.setState({
           ...this.state,

@@ -4,3 +4,19 @@
 .email-input {
   width: 18em;
 }
+
+.phone-input {
+  width: 16em;
+}
+
+.phone , .input {
+  padding: 8px;
+}
+
+.phone {
+  display: inline-block;
+}
+
+.email  {
+  display: inline-block;
+}
