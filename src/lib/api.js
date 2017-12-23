@@ -1,9 +1,9 @@
 let apiURL;
 if (typeof window !== 'undefined') {
-  apiURL = new URL(document.location);
+  apiURL = new URL(window.location);
 }
 else {
-  apiURL = new URL('http://localhost:8080');
+  apiURL = {};
 }
 apiURL.port = 8040;
 const address = apiURL.origin;
