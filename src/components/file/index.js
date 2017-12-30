@@ -8,9 +8,9 @@ import { Spinner } from '../../assets/spinner/index';
 import style from './style';
 
 const progressText = {
-  [PROGRESS_UPLOADING]: 'uploading file',
-  [PROGRESS_SLICING]: 'slicing file',
-  [PROGRESS_DONE]: 'done',
+  [PROGRESS_UPLOADING]: 'nahrávám soubur',
+  [PROGRESS_SLICING]: 'zpracovávám soubor',
+  [PROGRESS_DONE]: 'hotovo',
 };
 
 export default class File extends Component {
