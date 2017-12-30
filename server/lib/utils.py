@@ -38,3 +38,9 @@ def removeValueFromDict(k, value):
   for key in k:
     del k[key][value]
   return k
+
+def additionalDeliveryInfo(delivery):
+  if delivery == 'express':
+    return 'express dodání(+30% ceny)'
+  else:
+    return delivery

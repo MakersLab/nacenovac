@@ -12,9 +12,11 @@ class Order(Base):
   emailSentToClient = Column('email_sent_to_client', Boolean)
   emailSentToCompany = Column('email_sent_to_company', Boolean)
   files = relationship('File', backref='order', lazy=True)
+  phone = Column(String(30))
 
-  def __init__(self, email, delivery=None, price=None, details=None, emailSentToClient=False, emailSenToCompany=False):
+  def __init__(self, email, phone, delivery=None, price=None, details=None, emailSentToClient=False, emailSenToCompany=False):
     self.email = email
+    self.phone = phone
     self.price = price
     self.delivery = delivery
     self.details = details

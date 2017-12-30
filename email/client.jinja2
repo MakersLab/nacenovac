@@ -1,30 +1,53 @@
-{% extends "base.jinja2"  %}
+{% extends "base.jinja2" %}
 
 {% block content %}
-    <p>
-        Dobrý den,<br />
-        děkujeme za Vaši objednávku <b>č. S{{ orderId }}</b>
-    </p>
+  Dobrý den,
+  děkujeme za Vaši objednávku č. S{{ orderId }}
+  <div>
     <div>
-        <div>
-            <p>
-                {% for file in files %}
-                    <div>
-                        {{ file.name }} -
-                        {{ file.material }} -
-                        {{ file.color }} -
-                        {{ file.amount }}ks -
-                        {{ file.price }},-Kč
-                    </div>
-                {% endfor %}
-            </p>
-        </div>
+      <ul>
+        {% for file in files %}
+          <li>
+            <div>
+              <b>{{ file.name }} {{ file.amount }}ks</b>
+            </div>
+            <div>
+              materiál: <b>{{ file.material }}</b>
+            </div>
+            <div>
+              barva: <b>{{ file.color }}</b>
+            </div>
+            <div class="price">
+              {% if file.amount != 1 %} {{ file.priceItem }} Kč / ks -{% endif %}
 
-        <div>
-            Celkem {{ price }},-Kč
-        </div>
-        <div>
-            Ohledně realizace se Vam v nejbližší možné době ozveme.
-        </div>
+              {{ file.price }} Kč
+            </div>
+          </li>
+        {% endfor %}
+        {% if deliveryPrice != 0 %}
+          <li>
+            <b>{{ delivery }}</b>
+            <div class="price">
+              {{ deliveryPrice }} Kč
+            </div>
+          </li>
+        {% endif %}
+      </ul>
     </div>
+    <div>
+      Celkem bez DPH {{ price }} Kč
+    </div>
+    <div>
+      Celkem <b>{{ priceWithTax }} Kč</b>
+    </div>
+    {% if details %}
+      <br>
+      <b>Vaše požadavky:</b>
+      <p class="customer__request">
+        {{ details }}
+      </p>
+    {% endif %}
+    <div>
+    </div>
+  </div>
 {% endblock %}

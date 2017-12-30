@@ -11,7 +11,7 @@ from time import time
 
 from lib.slicer import slice
 from lib.stl_tools import analyzeSTL
-from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict
+from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict, additionalDeliveryInfo
 from lib.pricing import price
 from lib.email_util import Email
 from lib.background_task import execute
@@ -81,7 +81,7 @@ def order():
   data = loads(request.form['data'])
   files = data['files']
   filesDb = []
-  orderDb = Order(data['email'], delivery=data['delivery'], details=data['details'])
+  orderDb = Order(data['email'], data['phone'], delivery=data['delivery'], details=data['details'])
   orderPrice = 0
   for file in files:
     fileDb = File.query.filter_by(id=file['id']).first()
@@ -90,15 +90,20 @@ def order():
     fileDb.amount = file['amount']
     filesDb.append(fileDb)
     filament = FILAMENTS[file['filament']]
-    individualPrice = price(fileDb.printTime, fileDb.filamentUsed, filament)*file['amount']
+    individualItemPrice = price(fileDb.printTime, fileDb.filamentUsed, filament)
+    individualPrice = individualItemPrice * file['amount']
     orderPrice += individualPrice
     file['color'] = filament['color-name']
     file['material'] = filament['material']
     file['price'] = individualPrice
+    file['priceItem'] = individualItemPrice
     file['name'] = fileDb.name
     file['content'] = loadFromFile(os.path.join(CONFIG['stl-upload-directory'], fileDb.fileName), bytes=True)
+  deliveryPrice = 0
   if data['delivery'] == 'express':
-    orderPrice = round(orderPrice*1.3)
+    deliveryPrice = round(orderPrice * CONFIG['express-delivery'])
+  orderPrice = orderPrice + deliveryPrice
+  orderPriceWithTax = round(orderPrice*CONFIG['tax'])
 
   orderDb.price = orderPrice
   dbSession.add(orderDb)
@@ -121,8 +126,14 @@ def order():
       content = template.render(
         files=files,
         price=orderPrice,
+        priceWithTax=orderPriceWithTax,
         orderId=orderId,
-        delivery=data['delivery'])
+        email=data['email'],
+        delivery=additionalDeliveryInfo(data['delivery']),
+        details=details,
+        phone=data['phone'],
+        deliveryPrice=deliveryPrice,
+      )
       messageForClient = email.createMessage(
         EMAIL_CONFIG['email'],
         data['email'],
@@ -139,10 +150,14 @@ def order():
       content = template.render(
         files=files,
         price=orderPrice,
+        priceWithTax=orderPriceWithTax,
         orderId=orderId,
         email=data['email'],
-        delivery=data['delivery'],
-        details=details)
+        delivery=additionalDeliveryInfo(data['delivery']),
+        details=details,
+        phone=data['phone'],
+        deliveryPrice=deliveryPrice,
+      )
       messageForCompany = email.createMessage(
         EMAIL_CONFIG['email'],
         EMAIL_CONFIG['order-to'],

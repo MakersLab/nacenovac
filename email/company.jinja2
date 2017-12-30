@@ -1,40 +1,60 @@
-{% extends "base.jinja2"  %}
+{% extends "base.jinja2" %}
 
 {% block content %}
-    <h1>
-        Nová objednávka <b>č. S{{ orderId }}</b>
-    </h1>
+  <h1>
+    Nová objednávka <b>č. S{{ orderId }}</b>
+  </h1>
+  <div>
     <div>
-        <div>
-            <p>
-                {% for file in files %}
-                    <div>
-                        {{ file.name }} -
-                        {{ file.material }} -
-                        {{ file.color }} -
-                        {{ file.amount }}ks -
-                        {{ file.price }},-Kč
-                    </div>
-                {% endfor %}
-            </p>
-        </div>
-        <div>
-            Celkem {{ price }},-Kč
-        </div>
-        <div>
-            Druh dodání <b>{{ delivery }}</b>
-        </div>
-        <div>
-            Zákazníkův email <b>{{ email }}</b>
-        </div>
-        {% if details %}
-            <br>
-            <b>Požadavky od zákazníka:</b>
-            <p class="customer__request">
-                {{ details }}
-            </p>
+      <h2 style="font-size: 20px;">Položky</h2>
+      <ul>
+        {% for file in files %}
+          <li>
+            <div>
+              <b>{{ file.name }} {{ file.amount }}ks</b>
+            </div>
+            <div>
+              materiál: <b>{{ file.material }}</b>
+            </div>
+            <div>
+              barva: <b>{{ file.color }}</b>
+            </div>
+            <div class="price">
+              {% if file.amount != 1 %} {{ file.priceItem }} Kč / ks -{% endif %}
+              {{ file.price }} Kč
+            </div>
+          </li>
+        {% endfor %}
+        {% if deliveryPrice != 0 %}
+          <li>
+            <b>{{ delivery }}</b>
+            <div class="price">
+              {{ deliveryPrice }} Kč
+            </div>
+          </li>
         {% endif %}
-        <div>
-        </div>
+      </ul>
     </div>
+    <div>
+      Celkem bez DPH {{ price }} Kč
+    </div>
+    <div>
+      Celkem <b>{{ priceWithTax }} Kč</b>
+    </div>
+    <div>
+      Zákazníkův email <b>{{ email }}</b>
+    </div>
+    <div>
+      Zákazníkovo telefonní číslo <b>{{ phone }}</b>
+    </div>
+    {% if details %}
+      <br>
+      <b>Požadavky od zákazníka:</b>
+      <p class="customer__request">
+        {{ details }}
+      </p>
+    {% endif %}
+    <div>
+    </div>
+  </div>
 {% endblock %}
