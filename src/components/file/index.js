@@ -8,7 +8,7 @@ import { Spinner } from '../../assets/spinner/index';
 import style from './style';
 
 const progressText = {
-  [PROGRESS_UPLOADING]: 'nahrávám soubur',
+  [PROGRESS_UPLOADING]: 'nahrávám soubor',
   [PROGRESS_SLICING]: 'zpracovávám soubor',
   [PROGRESS_DONE]: 'hotovo',
 };
