@@ -9,10 +9,11 @@ const path = require('path');
  **/
 export default function (config, env, helpers) {
   const pathToEntry = path.join(process.cwd(), 'src/entry.js');
-  console.log('custom webpack settings');
-  if(typeof config.entry.bundle === 'string') {
-    config.entry.bundle = pathToEntry;
-  } else {
-    config.entry.bundle[0] = pathToEntry;
+  if(env.production) {
+    if(typeof config.entry.bundle === 'string') {
+      config.entry.bundle = pathToEntry;
+    } else {
+      config.entry.bundle[0] = pathToEntry;
+    }
   }
 }
