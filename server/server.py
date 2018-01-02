@@ -8,10 +8,11 @@ from flask_cors import CORS, cross_origin
 import os
 from jinja2 import Environment, FileSystemLoader
 from time import time
+from copy import deepcopy
 
 from lib.slicer import slice
 from lib.stl_tools import analyzeSTL
-from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict, additionalDeliveryInfo
+from lib.utils import getPath, addUniqueIdToFile, loadYaml, loadFromFile, removeValueFromDict, additionalDeliveryInfo, loadFilaments
 from lib.pricing import price
 from lib.email_util import Email
 from lib.background_task import execute
@@ -67,11 +68,11 @@ def getPrice():
   filament = data['filament']
   return dumps({'price': price(fileDb.printTime, fileDb.filamentUsed, FILAMENTS[filament])})
 
-
+clientFilaments = removeValueFromDict(deepcopy(FILAMENTS), 'price')
 @app.route('/filaments', methods=['POST'])
 def getFilaments():
   response = {
-    'filaments': removeValueFromDict(loadYaml(CONFIG['filaments-config']), 'price')
+    'filaments': clientFilaments
   }
   return dumps(response)
 

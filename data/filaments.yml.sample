@@ -1,12 +1,47 @@
--
-  id: PLA_0000ff_a35s0
-  color-name: blue
-  color-code: 0000FF
-  material: PLA
-  price: 1
--
-  id: PLA_0000ff_a35s1
-  color-name: red
-  color-code: FF0000
-  material: PLA
-  price: 1
+PLA:
+ price: 200
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff
+
+ABS:
+ price: 250
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff
+
+PETG:
+ price: 200
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff

@@ -44,3 +44,17 @@ def additionalDeliveryInfo(delivery):
     return 'express dodání(+30% ceny)'
   else:
     return delivery
+
+def loadFilaments(path):
+  filamentsConfig = loadYaml(path)
+  filaments = {}
+  for material in filamentsConfig:
+    for color in filamentsConfig[material]['colors']:
+      filamentId = '{0}_{1}'.format(material, color['code'])
+      filaments[filamentId] = {
+        'material': material,
+        'price': filamentsConfig[material]['price'],
+        'color-name': color['name'],
+        'color-code': color['code'],
+      }
+  return filaments

@@ -1,4 +1,4 @@
-from lib.utils import loadYaml
+from lib.utils import loadYaml, loadFilaments
 import os
 from sys import platform
 
@@ -17,4 +17,4 @@ def getProjectPath(file):
 PATH = getProjectPath(__file__)
 CONFIG = loadYaml('config.yml')
 EMAIL_CONFIG = loadYaml(CONFIG['email-config'])
-FILAMENTS = loadYaml(CONFIG['filaments-config'])
+FILAMENTS = loadFilaments(CONFIG['filaments-config'])
