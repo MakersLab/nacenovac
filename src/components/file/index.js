@@ -19,7 +19,7 @@ export default class File extends Component {
 
     this.state = {
       selectedMaterial: props.filaments ? props.filaments[Object.keys(props.filaments)[0]].material : null,
-      selectedFilament: props.filaments ? props.filaments[Object.keys(props.filaments)[0]]['color-name'] : null,
+      selectedFilament: props.filaments ? Object.keys(props.filaments)[0] : null,
       amount: 1,
     };
 
@@ -102,7 +102,7 @@ export default class File extends Component {
         >
           <div class="row">
             <div class={`three columns ${style['details__detail-item']}`}>
-              <div class={style['detail-item__filename']}>
+              <div class={style['detail-item__filename']} title={props.filename}>
                 {props.filename}
               </div>
               {props.state !== PROGRESS_DONE ?
@@ -125,7 +125,7 @@ export default class File extends Component {
             </div>
             <div class={`two columns ${style['details__detail-item']}`}>
               <label class={style['title']}>Barva:</label>
-              <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
+              <select class={style['select']} title={props.filaments[state.selectedFilament]['color-name']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
                 {this.getAvailableColorOptions()}
               </select>
             </div>
