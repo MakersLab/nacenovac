@@ -13,6 +13,8 @@
 
 .detail-item__filename {
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .remove-icon {
@@ -20,4 +22,8 @@
 }
 .remove-icon:hover {
   color: #b64845;
+}
+
+.select {
+  width: 100%;
 }
