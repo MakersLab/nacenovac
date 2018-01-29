@@ -8,7 +8,9 @@ def loadFromFile(path, bytes=False):
     if not os.path.isabs(path):
       path = os.path.join(PATH, path)
     readType = 'r' if not bytes else 'rb'
-    with open(path, readType, encoding='utf-8') as file:
+    encoding = 'utf-8' if not bytes else None
+    fileContents = None
+    with open(path, readType, encoding=encoding) as file:
         fileContents = file.read()
         file.close()
     return fileContents
