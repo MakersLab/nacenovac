@@ -1,6 +1,6 @@
 let apiURL;
 if (typeof window !== 'undefined') {
-  apiURL = new URL(window.location);
+  apiURL = new URL('https://nacenit.openinnovations.cz:8040');    
 }
 else {
   apiURL = {};
