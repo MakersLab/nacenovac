@@ -1,0 +1,47 @@
+PLA:
+ price: 200
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff
+
+ABS:
+ price: 250
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff
+
+PETG:
+ price: 200
+ colors:
+  -
+    name: rudá
+    code: ff0000
+  -
+    name: modrá
+    code: 0000ff
+  -
+    name: azurová
+    code: ff0800
+  -
+    name: modro bílá
+    code: 8888ff

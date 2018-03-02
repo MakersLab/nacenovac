@@ -1,0 +1,6 @@
+
+export const PROGRESS_UPLOADING = 'PROGRESS_UPLOADING';
+export const PROGRESS_SLICING = 'PROGRESS_SLICING';
+export const PROGRESS_DONE = 'PROGRESS_DONE';
+
+export const MAX_FILE_SIZE = 25*1000*1000; // is in bytes

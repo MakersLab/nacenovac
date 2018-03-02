@@ -1,1 +1,11 @@
 node_modules/
+build/
+python-venv/
+data/stl/*.stl
+data/gcode/*.gcode
+config.yml
+data/filaments.yml
+email/email.yml
+ *.pyc
+data/database.db
+.idea

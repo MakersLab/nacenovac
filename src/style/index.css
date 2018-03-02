@@ -1,20 +1,49 @@
-html, body {
-	height: 100%;
+html{ min-height: 100%}
+body{
 	width: 100%;
+  height: 100%;
 	padding: 0;
 	margin: 0;
-	background: #FAFAFA;
+	/*background: linear-gradient(45deg, #2f9ca8, #b04d9b);*/
+	/*background: linear-gradient(28deg, #ffed63, #15d7da);*/
+  background-color: #ffffff;
 	font-family: 'Helvetica Neue', arial, sans-serif;
 	font-weight: 400;
 	color: #444;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-* {
-	box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
-	height: 100%;
+  /*padding: 40px;*/
+  /*position: relative;*/
+  /*margin: auto;*/
+  /*margin-top: 200px;*/
+  /*margin-bottom: 200px;*/
+  /*max-width: 800px;*/
+  /*border: solid 1px #919191;*/
+  /*border-radius: 8px;*/
+  /*background-color: #efefef;*/
+  background-color: #ffffff;
+}
+
+.content {
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+h2 {
+  font-size: 1.7em;
+}
+
+.icon {
+  font-size: 26px;
+}
+
+.file-add-icon {
+  color: #49bc84;
+}
+.file-add-icon:hover {
+  color: #47a973;
 }

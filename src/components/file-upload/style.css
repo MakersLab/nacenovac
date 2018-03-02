@@ -1,0 +1,27 @@
+.file-upload {
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.file {
+  /*height: 40px;*/
+  width: 200px;
+  padding: 10px;
+  margin: 10px;
+  border: dashed #5b5e73 1px;
+  border-radius: 40px;
+  background-color: #d1d1d1;
+  text-align: center;
+  color: #636363;
+}
+
+.file__text {
+}
+
+.button {
+  position: relative;
+  transform: translate(0, 150%);
+}

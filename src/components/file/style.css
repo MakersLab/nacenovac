@@ -1,0 +1,29 @@
+.details {
+
+}
+
+.details__detail-item {
+  display: inline-block;
+  margin: 10px;
+}
+
+.detail-item__amount {
+  width: 4em;
+}
+
+.detail-item__filename {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove-icon {
+  color: #d5514e;
+}
+.remove-icon:hover {
+  color: #b64845;
+}
+
+.select {
+  width: 100%;
+}
