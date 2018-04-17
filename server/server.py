@@ -30,6 +30,10 @@ init_db()
 
 env = Environment(loader=FileSystemLoader('../email/'))
 
+@app.route('/info'):
+def info():
+  return 'running'
+
 @app.route('/upload', methods=['POST'])
 def uploadFile():
   file = request.files['file']
@@ -185,4 +189,4 @@ def shutdownSession(exception=None):
     dbSession.remove()
 
 if __name__ == '__main__':
-  app.run('0.0.0.0', 8040, threaded=True)
+  app.run('0.0.0.0', 8041, threaded=True)
