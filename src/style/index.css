@@ -64,9 +64,14 @@ h2 {
 }
 
 .button {
-  background-color: white;
+  background-color: rgb(250, 249, 203);
   box-shadow: none;
-  border: solid 2px black;
+  border: solid 2px rgb(255, 245, 111);
   padding: 15px;
-  border-radius: 8px;
+  cursor: pointer;
+  /* border-radius: 8px; */
+}
+
+.button:hover {
+  background-color: rgb(245, 243, 143);  
 }
