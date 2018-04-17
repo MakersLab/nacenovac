@@ -1,17 +1,6 @@
 html{ min-height: 100%}
 body{
-	width: 100%;
-  height: 100%;
-	padding: 0;
-	margin: 0;
-	/*background: linear-gradient(45deg, #2f9ca8, #b04d9b);*/
-	/*background: linear-gradient(28deg, #ffed63, #15d7da);*/
-  background-color: #ffffff;
-	font-family: 'Helvetica Neue', arial, sans-serif;
-	font-weight: 400;
-	color: #444;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
 }
 
 #app {
@@ -25,6 +14,18 @@ body{
   /*border-radius: 8px;*/
   /*background-color: #efefef;*/
   background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+	padding: 0;
+	margin: 0;
+	/*background: linear-gradient(45deg, #2f9ca8, #b04d9b);*/
+	/*background: linear-gradient(28deg, #ffed63, #15d7da);*/
+  background-color: #ffffff;
+	font-family: 'Open sans', arial, sans-serif;
+	font-weight: 400;
+	color: #444;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .content {
@@ -39,6 +40,7 @@ h2 {
 
 .icon {
   font-size: 26px;
+  cursor: pointer;
 }
 
 .file-add-icon {
@@ -46,4 +48,25 @@ h2 {
 }
 .file-add-icon:hover {
   color: #47a973;
+}
+
+.price {
+  /* color: pink; */
+  padding: 4px;
+  font-weight: bold;
+}
+
+.input {
+  border: solid 1px rgb(170, 170, 170);  
+  padding: 10px;
+  margin: 4px;
+  border-radius: 2px;
+}
+
+.button {
+  background-color: white;
+  box-shadow: none;
+  border: solid 2px black;
+  padding: 15px;
+  border-radius: 8px;
 }

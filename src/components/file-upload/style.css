@@ -8,20 +8,51 @@
 
 .file {
   /*height: 40px;*/
-  width: 200px;
-  padding: 10px;
-  margin: 10px;
-  border: dashed #5b5e73 1px;
-  border-radius: 40px;
-  background-color: #d1d1d1;
+  width: 300px;
+  padding: 15px;
+  border-radius: 0px;
   text-align: center;
-  color: #636363;
+  color: #484848;
+  display: flex;
+  cursor: pointer;
+  background-color: inherit;
+  vertical-align: middle;
+}
+
+.file-upload__border:hover>.file {
+  background-color: #faed8a;
+  border: dashed #575960 4px;  
 }
 
 .file__text {
+  margin: auto;;
+}
+
+.file-upload__border {
+  margin: 10px;  
+  background-color: #faf4c4;
+  padding: 15px;
+  display: inline-block;  
+  border: solid #f9efa6 2px;
+  
+}
+
+.file-upload__border:hover {
+  background-color: #faed8a;
+  padding: 12px;
+}
+
+.file__icon {
+  font-size: 1.5em;
+  padding-left: 15px;
+  color: rgb(53, 53, 53);
 }
 
 .button {
   position: relative;
   transform: translate(0, 150%);
+}
+
+.select {
+  background-color: pink;
 }

@@ -1,3 +1,15 @@
 .details__textarea {
   width: 100%;
 }
+
+.details__label {
+  margin: 10px;
+  margin-top: 15px;
+  font-weight: 600;  
+}
+
+.details__option {
+  margin: 10px;
+  padding: 10px;
+  /* background-color: pink; */
+}

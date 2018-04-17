@@ -43,7 +43,7 @@ export default class Order extends Component {
                 label="email"
                 onChange={(e) => {this.handleInputChange(e, 'email')}}
                 value={state.form.email}
-                class={style['email-input']}
+                class={`input ${style['email-input']}`}
               />
             </div>
             <div class={style.phone}>
@@ -53,7 +53,7 @@ export default class Order extends Component {
                 label="phone"
                 onChange={(e) => {this.handleInputChange(e, 'phone')}}
                 value={state.form.phone}
-                class={style['phone-input']}
+                class={`input ${style['phone-input']}`}
               />
             </div>
             <div>

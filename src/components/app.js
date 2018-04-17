@@ -257,7 +257,7 @@ export default class App extends Component {
                 <hr/>
                 <div className="row">
                   <label>Celková cena</label>
-                  <span>{Math.round(totalPrice)},-Kč</span>
+                  <span class="price">{Math.round(totalPrice)},-Kč</span>
                 </div>
                 {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
                 <hr/>

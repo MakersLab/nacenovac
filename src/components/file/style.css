@@ -26,4 +26,7 @@
 
 .select {
   width: 100%;
+  /* border-radius: 6px; */
+  box-shadow: none;
+  /* border: solid 1px rgb(124, 124, 124); */
 }

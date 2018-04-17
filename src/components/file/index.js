@@ -119,20 +119,20 @@ export default class File extends Component {
 
             <div class={`two columns ${style['details__detail-item']}`}>
               <label class={style['title']}>Material:</label>
-              <select class={style['select']} onChange={(e) => { this.handleValueChange(e, 'selectedMaterial'); }}>
+              <select class={`input ${style['select']}`} onChange={(e) => { this.handleValueChange(e, 'selectedMaterial'); }}>
                 {this.getAvailableMaterialOptions()}
               </select>
             </div>
             <div class={`two columns ${style['details__detail-item']}`}>
               <label class={style['title']}>Barva:</label>
-              <select class={style['select']} title={props.filaments[state.selectedFilament]['color-name']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
+              <select class={`input ${style['select']}`} title={props.filaments[state.selectedFilament]['color-name']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
                 {this.getAvailableColorOptions()}
               </select>
             </div>
             <div class={`two columns ${style['details__detail-item']}`}>
               <label>Počet:</label>
               <input
-                class={style['detail-item__amount']}
+                class={`input ${style['detail-item__amount']}`}
                 type="number"
                 min="1"
                 max="20"
@@ -143,7 +143,7 @@ export default class File extends Component {
             </div>
             <div class={`two columns ${style['details__detail-item']}`}>
               <label>Cena:</label>
-              <span>{props.price ? `${Math.round(props.price)*state.amount},- Kč`: '-'}</span>
+              <span class="price">{props.price ? `${Math.round(props.price)*state.amount},- Kč`: '-'}</span>
             </div>
             <div class={`one column ${style['details__detail-item']}`}>
               <a class={`icon ${style['remove-icon']}`} onClick={this.props.remove}><FontAwesome.FaClose/></a>
