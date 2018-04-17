@@ -31,7 +31,7 @@ export default class FileUpload extends Component {
   }
   render(props, state) {
     return (
-      <div class={`${style['file-upload']} container`}>
+      <div class={`${style['file-upload']}`}>
         <div class="offset-by-three one column">
           <div class={style['file-upload__border']}>
             <Dropzone
