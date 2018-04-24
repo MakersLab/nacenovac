@@ -136,7 +136,7 @@ export default class File extends Component {
                 class={`input ${style['detail-item__amount']}`}
                 type="number"
                 min="1"
-                max="20"
+                max="100"
                 value={state.amount}
                 onChange={(e) => { this.handleValueChange(e, 'amount'); }}
                 onClick={(e) => { this.handleValueChange(e, 'amount'); }}
