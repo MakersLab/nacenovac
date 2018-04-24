@@ -242,6 +242,17 @@ export default class App extends Component {
       <div id="app">
         {!state.order ?
           <div class="file-upload__container">
+            <p>
+              <div className="big-text">
+                Získejte okamžitou cenovou nabídku 3D tisku. Nahrajte soubor STL, vyberte si materiál a poptejte.
+              </div>
+              <div className="big-text">
+                My hned na vaší poptávce začneme pracovat a kontaktujeme vás.
+              </div>                                  
+              <br/>
+              Pro větší objendávky nás prosím kontaktuje přímo na <a className="link" href="mailto:3dtisk@3dtovarna.cz">3dtisk@3dtovarna.cz</a>
+              {/* Nahrajete soubory STL a u nás vám je automaticky zpracujeme a řekneme kolik bude jejich vytištění stát. */}
+            </p>
             {!state.files.length ?
             <div>
               <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => {
@@ -252,6 +263,8 @@ export default class App extends Component {
             : null}
             {state.files.length ?
               <div>
+                <hr/>
+
                 {details}
                 <div className="subtext"><i>Zpracování vašeho stl souboru může chvíli trvat, závisí na velikosti souboru a rychlosti vašeho internetového připojení</i></div>
                 <div className="row">
@@ -284,7 +297,9 @@ export default class App extends Component {
                 <Order createOrder={this.createOrder}/>
               </div>
               : null}
-
+            <a className="link" target="_blank" href="https://www.openinnovations.cz/blog/2016/05/data-pro-3d-tisk/">Nemám nebo nevím co je to soubor STL </a>
+                <br/>
+            <a className="link" target="_blank" href="https://www.openinnovations.cz/3dtovarna/materialy-pro-3d-tisk/">Neznám dostupné materiály pro 3D tisk </a>
           </div>
           :
           <div>
