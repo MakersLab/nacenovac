@@ -103,3 +103,9 @@ h2 {
 .link:hover {
   color: rgb(245, 122, 28);  
 }
+
+.big-text {
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: bold;
+}
