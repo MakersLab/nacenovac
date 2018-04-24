@@ -13,13 +13,14 @@
   padding: 15px;
   border-radius: 0px;
   text-align: center;
-  color: #2d2d2d;
+  color: #3f3f3f;
   display: flex;
   cursor: pointer;
   background-color: inherit;
   vertical-align: middle;
   /* font-family: 'Work Sans'; */
-  font-size: 1.2em;
+  font-size: 1.4em;
+  font-weight: bold;
   text-align: left;
 }
 
