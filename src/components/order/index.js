@@ -57,7 +57,7 @@ export default class Order extends Component {
               />
             </div>
             <div>
-              <input class="button" type="submit" value="Vytvořit objednávku"/>
+              <input class={`button ${style['submit-button']}`} type="submit" value="Vytvořit poptávku"/>
             </div>
           </form>
         </div>

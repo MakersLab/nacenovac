@@ -21,7 +21,7 @@ body{
 	/*background: linear-gradient(45deg, #2f9ca8, #b04d9b);*/
 	/*background: linear-gradient(28deg, #ffed63, #15d7da);*/
   background-color: #ffffff;
-	font-family: 'Open sans', arial, sans-serif;
+  font-family: 'Open sans', arial, sans-serif;
 	font-weight: 400;
 	color: #444;
   -webkit-font-smoothing: antialiased;
@@ -44,23 +44,38 @@ h2 {
 }
 
 .file-add-icon {
+  margin: auto;
+  display: block;
+  text-align: center;
   color: #49bc84;
 }
 .file-add-icon:hover {
   color: #47a973;
 }
 
+.subtext {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8em;
+  color: rgba(66, 74, 82, 0.768);
+}
+
 .price {
   /* color: pink; */
   padding: 4px;
   font-weight: bold;
+  font-size: 1.2em;
 }
 
 .input {
-  border: solid 1px rgb(170, 170, 170);  
+  border: solid 1px rgb(51, 77, 54);  
   padding: 10px;
   margin: 4px;
   border-radius: 2px;
+}
+
+.input:focus {
+  box-shadow: 0 0 4px darkgray inset;
 }
 
 .button {
@@ -74,4 +89,9 @@ h2 {
 
 .button:hover {
   background-color: rgb(245, 243, 143);  
+}
+
+.price-row {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }

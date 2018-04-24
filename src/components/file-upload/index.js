@@ -42,11 +42,18 @@ export default class FileUpload extends Component {
               accept={".stl"}
               ref={(node) => { this.dropzoneRef = node; }}
             >
-              <div class={style['file__text']}>Kliknutím otevřete nebo přetáhněte soubor STL</div>
               <div class={style['file__icon']}><FontAwesome.FaUpload/></div>
+              <div class={style['file__text']}>Kliknutím otevřete dialog pro výběr souboru STL a nebo ho sem přetáhněte
+                <div className="subtext">
+                  <i>
+                    Maximální velikost je 50MB
+                 </i>
+                </div>
+              </div>
+              
             </Dropzone>
           </div>
-        <div><i>Maximální velikost STL souboru je 50MB</i></div>
+
         </div>
         {/*<div class={`one column offset-by-two ${style['button']}`}>*/}
         {/*<button class="button-primary disabled" disabled={!state.isFileSelected} onClick={this.handleAnalyzeButtonClick} type="button">Go to details</button>*/}

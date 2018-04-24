@@ -1,4 +1,5 @@
 .file-upload {
+
 }
 
 .heading {
@@ -8,20 +9,24 @@
 
 .file {
   /*height: 40px;*/
-  width: 300px;
+  width: 520px;
   padding: 15px;
   border-radius: 0px;
   text-align: center;
-  color: #484848;
+  color: #2d2d2d;
   display: flex;
   cursor: pointer;
   background-color: inherit;
   vertical-align: middle;
+  /* font-family: 'Work Sans'; */
+  font-size: 1.2em;
+  text-align: left;
 }
 
 .file-upload__border:hover>.file {
   background-color: #faed8a;
-  border: dashed #575960 4px;  
+  border: dashed #575960 4px;
+  padding: 11.5px;
 }
 
 .file__text {
@@ -29,22 +34,28 @@
 }
 
 .file-upload__border {
-  margin: 10px;  
+  margin: auto; 
   background-color: #faf4c4;
   padding: 15px;
-  display: inline-block;  
+  width: 550px;
+  display: block;  
   border: solid #f9efa6 2px;
-  
+  box-shadow: 0 0 10px lightgray;
+  transition: 0.2s;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .file-upload__border:hover {
   background-color: #faed8a;
-  padding: 12px;
+  box-shadow: 0 0 10px gray;
+  /* padding: 15px; */
 }
 
 .file__icon {
-  font-size: 1.5em;
-  padding-left: 15px;
+  font-size: 3em;
+  padding-right: 25px;
+  padding-left: 6px;
   color: rgb(53, 53, 53);
 }
 

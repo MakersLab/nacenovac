@@ -241,24 +241,28 @@ export default class App extends Component {
     return (
       <div id="app">
         {!state.order ?
-          <div>
-            <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => {
-              this.fileUploadRef = node
-            }}/>
+          <div class="file-upload__container">
+            {!state.files.length ?
+            <div>
+              <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => {
+                this.fileUploadRef = node
+              }}/>
+              {/* <div><a href="">Nevíte co je soubor STL ?</a></div> */}
+            </div>
+            : null}
             {state.files.length ?
               <div>
-                <hr/>
                 {details}
+                <div className="subtext"><i>Zpracování vašeho stl souboru může chvíli trvat, závisí na velikosti souboru a rychlosti vašeho internetového připojení</i></div>
                 <div className="row">
-                  <a className="icon file-add-icon one column offset-by-five" onClick={() => {
+                  {/* <a className="icon file-add-icon" onClick={() => {
                     this.fileUploadRef.dropzoneRef.open()
-                  }}><FontAwesome.FaPlus/></a>
+                  }}><FontAwesome.FaPlus/></a> */}
+                  <FileUpload confirmChooseFile={this.confirmChooseFile} ref={(node) => {
+                    this.fileUploadRef = node
+                  }}/>
                 </div>
-                <hr/>
-                <div className="row">
-                  <label>Celková cena</label>
-                  <span class="price">{Math.round(totalPrice)},-Kč</span>
-                </div>
+
                 {/*<Results confirmResult={() => { this.changeCurrentPage('order'); }} sliceResult={state.sliceResult} />*/}
                 <hr/>
                 <Details
@@ -271,6 +275,11 @@ export default class App extends Component {
                     this.genericOnValueChange('details', e);
                   }}
                 />
+                <hr/>
+                <div className={`price-row`}>
+                  <label>Celková cena</label>
+                  <span class="price">{Math.round(totalPrice)},-Kč</span>
+                </div>
                 <hr/>
                 <Order createOrder={this.createOrder}/>
               </div>

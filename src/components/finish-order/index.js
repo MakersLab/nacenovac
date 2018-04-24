@@ -10,8 +10,9 @@ export default class FinishOrder extends Component {
     return (
     <div class="container">
       <p class="">
-        Děkujeme, za Vaši objednávku. Budeme Vás kontaktovat. Detaily objednávky jsme Vám zaslali na email.
+        Děkujeme, za Vaši poptávku. Budeme Vás kontaktovat. Detaily objednávky jsme Vám zaslali na email.
       </p>
+      <a href="">Zpět na hlavní stránku</a>
       {/*<a class="button" href="http://3dtovarna.cz/" class={`button two columns offset-by-four ${style['button']}`}>*/}
         {/*OK*/}
       {/*</a>*/}

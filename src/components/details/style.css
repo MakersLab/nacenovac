@@ -13,3 +13,20 @@
   padding: 10px;
   /* background-color: pink; */
 }
+
+.details__textarea {
+  height: 6em;
+  width: 95%;
+  margin: auto;
+  display: block;
+  margin: 10px;
+  border: solid 1px rgb(85, 85, 85);
+  border-radius: 2px;
+  box-shadow: 0 0 8px lightgray inset;
+  padding: 8px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.details__textarea:focus {
+  box-shadow: 0 0 8px darkgray inset;
+}

@@ -30,3 +30,33 @@
   box-shadow: none;
   /* border: solid 1px rgb(124, 124, 124); */
 }
+
+.name {
+  width: 19%;
+  max-width: 290px;
+}
+
+.material {
+  width: 15%;
+  max-width: 120px;
+}
+
+.color {
+  width: 15%;
+  max-width: 150px;
+}
+
+.count {
+  width: 10%;
+  max-width: 130px;
+}
+
+.price {
+  width: 15%;
+  max-width: 160px;
+}
+
+.remove {
+  width: 5%;
+  max-width: 40px;
+}

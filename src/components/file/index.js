@@ -101,7 +101,7 @@ export default class File extends Component {
           onSubmit={e => { e.preventDefault(); }}
         >
           <div class="row">
-            <div class={`three columns ${style['details__detail-item']}`}>
+            <div class={`three columns ${style['details__detail-item']} ${style['name']}`}>
               <div class={style['detail-item__filename']} title={props.filename}>
                 {props.filename}
               </div>
@@ -117,20 +117,21 @@ export default class File extends Component {
               }
             </div>
 
-            <div class={`two columns ${style['details__detail-item']}`}>
-              <label class={style['title']}>Material:</label>
+            <div class={`two columns ${style['details__detail-item']} ${style['material']}`}>
+              <label class={style['title']}>Materiál:</label>
               <select class={`input ${style['select']}`} onChange={(e) => { this.handleValueChange(e, 'selectedMaterial'); }}>
                 {this.getAvailableMaterialOptions()}
               </select>
             </div>
-            <div class={`two columns ${style['details__detail-item']}`}>
+            <div class={`two columns ${style['details__detail-item']} ${style['color']}`}>
               <label class={style['title']}>Barva:</label>
               <select class={`input ${style['select']}`} title={props.filaments[state.selectedFilament]['color-name']} onChange={(e) => { this.handleValueChange(e, 'selectedFilament'); }}>
                 {this.getAvailableColorOptions()}
               </select>
             </div>
-            <div class={`two columns ${style['details__detail-item']}`}>
+            <div class={`two columns ${style['details__detail-item']} ${style['count']}`}>
               <label>Počet:</label>
+              <br/>
               <input
                 class={`input ${style['detail-item__amount']}`}
                 type="number"
@@ -141,11 +142,11 @@ export default class File extends Component {
                 onClick={(e) => { this.handleValueChange(e, 'amount'); }}
               />
             </div>
-            <div class={`two columns ${style['details__detail-item']}`}>
+            <div class={`two columns ${style['details__detail-item']} ${style['price']}`}>
               <label>Cena:</label>
               <span class="price">{props.price ? `${Math.round(props.price)*state.amount},- Kč`: '-'}</span>
             </div>
-            <div class={`one column ${style['details__detail-item']}`}>
+            <div class={`one column ${style['details__detail-item']} ${style['remove']}`}>
               <a class={`icon ${style['remove-icon']}`} onClick={this.props.remove}><FontAwesome.FaClose/></a>
             </div>
           </div>
