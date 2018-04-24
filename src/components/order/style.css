@@ -35,11 +35,12 @@
   font-weight: bolder;
   text-transform: uppercase;
   transition: 0.2s;
-  box-shadow: 0 0 8px lightgray;
+  box-shadow: 0 0 4px lightgray;
 }
 
 .submit-button:hover {
   color: white;
   background-color:#78ae6d;
   border: solid#78ae6d 4px;
+  box-shadow: 0 0 4px gray;  
 }
